@@ -1,7 +1,10 @@
 package com.projects.microsensors.model;
 
+import lombok.Getter;
+
 import java.util.UUID;
 
+@Getter
 public class SensorDataRequest {
     private final UUID id;
     private final byte[] data;

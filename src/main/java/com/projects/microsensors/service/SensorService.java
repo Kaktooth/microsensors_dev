@@ -17,9 +17,9 @@ public class SensorService {
 
     public void saveSensor(SensorRequest sensorRequest) {
         Sensor sensor = Sensor.builder()
-            .id(sensorRequest.id())
-            .name(sensorRequest.name())
-            .sensorInfo(sensorRequest.sensorInfo())
+            .id(sensorRequest.getId())
+            .name(sensorRequest.getName())
+            .sensorInfo(sensorRequest.getSensorInfo())
             .build();
 
         sensorRepository.save(sensor);
