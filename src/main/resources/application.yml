@@ -1,13 +1,6 @@
 server:
-  ssl:
-    key-store: microsensors.p12
-    key-store-password: Hand_123
-    key-store-type: pkcs12
-    key-alias: microsensors
-    key-password: Hand_123
-    protocol: TLS
-    enabled-protocols: TLSv1.2
-  port: 8443
+
+  port: 8081
   error:
     include-message: always
     include-exception: true
