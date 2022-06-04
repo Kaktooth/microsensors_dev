@@ -1,0 +1,55 @@
+server:
+  ssl:
+    key-store: microsensors.p12
+    key-store-password: Hand_123
+    key-store-type: pkcs12
+    key-alias: microsensors
+    key-password: Hand_123
+    protocol: TLS
+    enabled-protocols: TLSv1.2
+  port: 8443
+  error:
+    include-message: always
+    include-exception: true
+
+springfox:
+  documentation:
+    enabled: false
+
+spring:
+  application:
+    name: sensor
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://ec2-176-34-211-0.eu-west-1.compute.amazonaws.com:5432/d2gkhkukssc659
+    username: haryivpfqipxwn
+    password: 942aeb68e39926bb601986a2c6b72ad9f9b66f5f7b0c6eead53693ea0338f39a
+    driver-class-name: org.postgresql.Driver
+    jpa:
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+          format_sql: 'true'
+      hibernate:
+        ddl-auto: update
+      show-sql: 'true'
+    hikari:
+      maximum-pool-size: 50
+
+  main:
+    allow-bean-definition-overriding: true
+  flyway:
+    enabled: true
+    validate-on-migrate: true
+
+    mvc:
+      format:
+        date: yyyy.MM.dd
+        date-time: yyyy.MM.dd HH:mm
+        time: HH:mm:ss
+      view:
+        prefix: /
+        suffix: .jsp
+      pathmatch:
+        matching-strategy: ant_path_matcher
+
