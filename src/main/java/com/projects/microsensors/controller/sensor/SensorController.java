@@ -24,7 +24,7 @@ public class SensorController {
     }
 
     @GetMapping
-    public String sensorPage(@RequestBody SensorRequest sensorRequest) {
+    public String sensorPage() {
         return "upload sensors... ";
     }
 
