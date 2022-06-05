@@ -20,10 +20,10 @@ public class SensorDataService {
 
     public void saveSensorData(SensorDataRequest sensorDataRequest) {
         SensorData sensor = SensorData.builder()
-            .id(sensorDataRequest.getId())
+            .id(sensorDataRequest.id())
             .receiveDate(Timestamp.from(Instant.now()))
-            .data(sensorDataRequest.getData())
-            .sensorId(sensorDataRequest.getSensorId())
+            .data(sensorDataRequest.data())
+            .sensorId(sensorDataRequest.sensorId())
             .build();
 
         sensorDataRepository.save(sensor);
