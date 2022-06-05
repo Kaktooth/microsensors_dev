@@ -12,7 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("api/v1/sensor-data")
-public record SensorDataUploadController(SensorDataService sensorDataService) {
+public class SensorDataUploadController {
+
+    private final SensorDataService sensorDataService;
+
+    public SensorDataUploadController(SensorDataService sensorDataService) {
+        this.sensorDataService = sensorDataService;
+    }
 
     @GetMapping
     public String sensorDataPage() {
