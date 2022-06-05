@@ -3,6 +3,7 @@ package com.projects.microsensors.controller.sensor;
 import com.projects.microsensors.model.SensorDataRequest;
 import com.projects.microsensors.service.SensorDataService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ public class SensorDataUploadController {
 
     private final SensorDataService sensorDataService;
 
+    @Autowired
     public SensorDataUploadController(SensorDataService sensorDataService) {
         this.sensorDataService = sensorDataService;
     }
