@@ -41,25 +41,7 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf().csrfTokenRepository(new CookieCsrfTokenRepository())
-            .and()
-            .headers().frameOptions().sameOrigin()
-            .and()
-            .authorizeRequests()
-            .mvcMatchers(errorPage, api, logInPage, createAccountPage, page)
-            .permitAll()
-            .anyRequest()
-            .authenticated()
-            .and()
-            .formLogin()
-            .loginPage(logInPage)
-            .loginProcessingUrl(logInPage)
-            .usernameParameter("user")
-            .passwordParameter("password")
-            .defaultSuccessUrl("/", true)
-            .failureUrl(logInPage + "?error")
-            .permitAll();
+        http.csrf().disable();
 
         return http.build();
     }
