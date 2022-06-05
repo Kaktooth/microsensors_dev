@@ -9,6 +9,9 @@ import com.projects.microsensors.repository.SensorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+
 @Service
 public class SensorMessageService {
 
@@ -22,7 +25,7 @@ public class SensorMessageService {
     public void saveSensorMessage(SensorMessageRequest messageRequest) {
         SensorMessage message = SensorMessage.builder()
             .id(messageRequest.id())
-            .receiveDate(messageRequest.receiveDate())
+            .receiveDate(Timestamp.from(Instant.now()))
             .message(messageRequest.message())
             .sensorId(messageRequest.sensorId())
             .build();
