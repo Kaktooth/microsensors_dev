@@ -1,7 +1,6 @@
 package com.projects.microsensors.model;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,34 +9,35 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.sql.Timestamp;
 import java.util.Objects;
 import java.util.UUID;
 
 @Data
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "sensors")
+@Table(name = "sensor_messages")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-//@Cacheable
-public class Sensor extends Domain {
+public class SensorMessage extends Domain {
 
-    private String name;
-    private String sensorInfo;
+    String message;
+    Timestamp receiveDate;
+    UUID sensorId;
 
     @Builder
-    public Sensor(UUID id, String name, String sensorInfo) {
+    public SensorMessage(UUID id, String message, Timestamp receiveDate, UUID sensorId) {
         super(id);
-        this.name = name;
-        this.sensorInfo = sensorInfo;
+        this.receiveDate = receiveDate;
+        this.sensorId = sensorId;
+        this.message = message;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Sensor sensor = (Sensor) o;
-        return getId() != null && Objects.equals(getId(), sensor.getId());
+        SensorMessage that = (SensorMessage) o;
+        return getId() != null && Objects.equals(getId(), that.getId());
     }
 
     @Override

@@ -18,7 +18,7 @@ import java.util.UUID;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "sensor_data")
+@Table(name = "sensors_data")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SensorData extends Domain {
 

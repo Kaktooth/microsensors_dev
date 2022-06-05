@@ -1,4 +1,4 @@
-CREATE TABLE sensor
+CREATE TABLE sensors
 (
     id          UUID PRIMARY KEY,
     name        VARCHAR UNIQUE NOT NULL,
