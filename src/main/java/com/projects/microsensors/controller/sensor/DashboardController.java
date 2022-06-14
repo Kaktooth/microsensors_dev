@@ -6,8 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
@@ -22,7 +22,7 @@ public record DashboardController(SensorService sensorService) {
     }
 
     @PostMapping
-    public String createNewSensor(@RequestBody SensorRequest sensorRequest) {
+    public String createNewSensor(@ModelAttribute SensorRequest sensorRequest) {
         log.info("new sensor {}", sensorRequest);
         sensorService.saveSensor(sensorRequest);
         return "dashboard";
