@@ -6,6 +6,8 @@ import com.projects.microsensors.repository.SensorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class SensorService {
     private final SensorRepository sensorRepository;
@@ -16,10 +18,15 @@ public class SensorService {
     }
 
     public void saveSensor(SensorRequest sensorRequest) {
+        UUID id = sensorRequest.getId();
+        if (id == null) {
+            id = UUID.randomUUID();
+        }
+
         Sensor sensor = Sensor.builder()
-            .id(sensorRequest.id())
-            .name(sensorRequest.name())
-            .sensorInfo(sensorRequest.sensorInfo())
+            .id(id)
+            .name(sensorRequest.getName())
+            .sensorInfo(sensorRequest.getSensorInfo())
             .build();
 
         sensorRepository.save(sensor);

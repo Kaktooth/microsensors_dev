@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.UUID;
 
 @Service
 public class SensorDataService {
@@ -19,8 +20,12 @@ public class SensorDataService {
     }
 
     public void saveSensorData(SensorDataRequest sensorDataRequest) {
+        UUID id = sensorDataRequest.id();
+        if (id == null) {
+            id = UUID.randomUUID();
+        }
         SensorData sensor = SensorData.builder()
-            .id(sensorDataRequest.id())
+            .id(id)
             .receiveDate(Timestamp.from(Instant.now()))
             .data(sensorDataRequest.data())
             .sensorId(sensorDataRequest.sensorId())
