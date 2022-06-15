@@ -18,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "sensor_messages")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SensorMessage extends Domain {
+public class SensorMessage extends Domain implements Comparable<SensorMessage> {
 
     String message;
     Timestamp receiveDate;
@@ -48,5 +48,10 @@ public class SensorMessage extends Domain {
     @Override
     public String toString() {
         return "[ " + receiveDate.toLocalDateTime() + " ] <-^-> " + message;
+    }
+
+    @Override
+    public int compareTo(SensorMessage o) {
+        return this.receiveDate.compareTo(o.receiveDate);
     }
 }

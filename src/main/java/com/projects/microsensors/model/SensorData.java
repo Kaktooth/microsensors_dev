@@ -21,7 +21,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "sensors_data")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SensorData extends Domain {
+public class SensorData extends Domain implements Comparable<SensorData> {
 
     Timestamp receiveDate;
     byte[] data;
@@ -51,5 +51,10 @@ public class SensorData extends Domain {
     @Override
     public String toString() {
         return "[ " + receiveDate.toLocalDateTime() + " ] <-^-> " + Arrays.toString(data);
+    }
+
+    @Override
+    public int compareTo(SensorData o) {
+        return this.receiveDate.compareTo(o.receiveDate);
     }
 }
