@@ -1,6 +1,11 @@
 package com.projects.microsensors.model;
 
+import com.projects.microsensors.controller.sensor.DashboardController;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.PostLoad;
 import javax.persistence.PostPersist;
@@ -11,28 +16,35 @@ import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 
 @Slf4j
-public class CustomizedListener {
+@Component
+@AllArgsConstructor
+@NoArgsConstructor
+public class CustomizedListener<T extends Domain> {
+
+    @Autowired
+    private DashboardController dashboardController;
 
     @PrePersist
     @PreUpdate
     @PreRemove
-    private void beforeAnyUpdateInsertDatabase(SensorMessage message) {
-        if (message.getId() == null) {
+    private void beforeAnyUpdateInsertDatabase(T object) {
+        if (object.getId() == null) {
             log.info("About to add a user");
         } else {
-            log.info("About to update/delete user: " + message.getId());
+            log.info("About to update/delete user: " + object.getId());
+            dashboardController.update();
         }
     }
 
     @PostPersist
     @PostUpdate
     @PostRemove
-    private void afterAnyUpdateInTheDataBase(SensorMessage message) {
-        log.info("add or update or delete complete for user: " + message.getId());
+    private void afterAnyUpdateInTheDataBase(T object) {
+        log.info("add or update or delete complete for user: " + object.getId());
     }
 
     @PostLoad
-    private void afterLoadInTheDatabase(SensorMessage message) {
-        log.info(" user loaded from database: " + message.getId());
+    private void afterLoadInTheDatabase(T object) {
+        log.info(" user loaded from database: " + object.getId());
     }
 }
