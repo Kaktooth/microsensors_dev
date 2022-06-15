@@ -29,8 +29,7 @@
     </button>
     <form method="get" id="form" th:action="@{/dashboard}">
         <select name="sensorId" id="sensorId" onchange="update()">
-            <option th:each="s: ${sensorList}" th:value="${s.id}" th:text="${s.name}"
-                    th:selected="${s.index==0}"></option>
+            <option th:each="s: ${sensorList}" th:value="${s.id}" th:text="${s.name}"></option>
         </select>
     </form>
     <div th:if="${sensor} != null">
