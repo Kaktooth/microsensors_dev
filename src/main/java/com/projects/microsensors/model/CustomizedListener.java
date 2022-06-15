@@ -21,9 +21,6 @@ import javax.persistence.PreUpdate;
 @NoArgsConstructor
 public class CustomizedListener<T extends Domain> {
 
-    @Autowired
-    private DashboardController dashboardController;
-
     @PrePersist
     @PreUpdate
     @PreRemove
@@ -32,7 +29,6 @@ public class CustomizedListener<T extends Domain> {
             log.info("About to add a user");
         } else {
             log.info("About to update/delete user: " + object.getId());
-            dashboardController.update();
         }
     }
 

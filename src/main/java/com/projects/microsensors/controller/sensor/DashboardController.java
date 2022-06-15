@@ -41,9 +41,4 @@ public class DashboardController {
         sensorService.saveSensor(sensorRequest);
         return "dashboard";
     }
-
-    @GetMapping("/update")
-    public String update() {
-        return "redirect:/dashboard";
-    }
 }
