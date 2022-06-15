@@ -5,9 +5,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Hibernate;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.PostLoad;
+import javax.persistence.PostPersist;
+import javax.persistence.PostRemove;
+import javax.persistence.PostUpdate;
+import javax.persistence.PrePersist;
+import javax.persistence.PreRemove;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -15,6 +24,7 @@ import java.util.UUID;
 
 @Data
 @Entity
+@EntityListeners(CustomizedListener.class)
 @NoArgsConstructor
 @Table(name = "sensor_messages")
 @FieldDefaults(level = AccessLevel.PRIVATE)

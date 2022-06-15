@@ -15,20 +15,6 @@
             const form = document.getElementById('form');
             form.submit();
         }
-        var connect = function () {
-            var source = new EventSource('/register');
-            // Reconnect if the connection fails
-            source.addEventListener('error', function (e) {
-                console.log('Disconnected.');
-                if (e.readyState == EventSource.CLOSED) {
-                    connected = false;
-                    connect();
-                }
-            }, false);
-        };
-        source.addEventListener('message', function (e) {
-            update();
-        }, false);
     </script>
 </head>
 <body>

@@ -1,6 +1,5 @@
 package com.projects.microsensors.controller.sensor;
 
-import com.projects.microsensors.controller.SseController;
 import com.projects.microsensors.model.SensorMessageRequest;
 import com.projects.microsensors.service.SensorMessageService;
 import lombok.AllArgsConstructor;
@@ -20,7 +19,6 @@ import java.io.IOException;
 public class SensorMessageController {
 
     private final SensorMessageService sensorMessageService;
-    private final SseController sseController;
 
     @GetMapping
     public String sensorDataPage() {
@@ -31,7 +29,5 @@ public class SensorMessageController {
     public void saveSensorData(@RequestBody SensorMessageRequest sensorMessageRequest) throws IOException {
         sensorMessageService.saveSensorMessage(sensorMessageRequest);
         log.info("new sensor message {}", sensorMessageRequest);
-        sseController.register();
-        sseController.emit();
     }
 }
