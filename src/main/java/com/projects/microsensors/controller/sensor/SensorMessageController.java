@@ -29,6 +29,7 @@ public class SensorMessageController {
     @PostMapping
     public void saveSensorData(@RequestBody SensorMessageRequest sensorMessageRequest) {
         log.info("new sensor message {}", sensorMessageRequest);
+        System.out.println("save sensor message");
         sensorMessageService.saveSensorMessage(sensorMessageRequest);
         publisher.publishEvent(new AfterCreateEvent(sensorMessageRequest));
     }
