@@ -5,6 +5,7 @@ import com.projects.microsensors.model.UpdateEvent;
 import com.projects.microsensors.service.SensorDataService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.rest.core.event.AfterCreateEvent;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,5 +33,6 @@ public class SensorDataUploadController {
         log.info("new sensor data {}", sensorDataRequest);
         sensorDataService.saveSensorData(sensorDataRequest);
         publisher.publishEvent(new UpdateEvent(sensorDataRequest));
+
     }
 }

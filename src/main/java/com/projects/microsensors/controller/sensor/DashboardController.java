@@ -6,6 +6,7 @@ import com.projects.microsensors.model.SensorRequest;
 import com.projects.microsensors.model.UpdateEvent;
 import com.projects.microsensors.service.SensorDTOService;
 import com.projects.microsensors.service.SensorService;
+import io.swagger.annotations.Scope;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Controller;
@@ -42,8 +43,9 @@ public record DashboardController(SensorService sensorService,
         return "dashboard";
     }
 
-    @EventListener({SensorMessage.class, SensorData.class})
+    @EventListener
     public String updatePage(UpdateEvent event) {
+        log.info("update event");
         return "redirect:/dashboard";
     }
 }
