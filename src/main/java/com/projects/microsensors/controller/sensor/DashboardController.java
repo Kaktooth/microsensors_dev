@@ -44,10 +44,11 @@ public record DashboardController(SensorService sensorService,
         return "dashboard";
     }
 
-    @GetMapping
     @EventListener
+    @GetMapping("/update")
     public String updatePage(UpdateEvent event) {
         log.info("update event");
+
         return "redirect:/dashboard";
     }
 }
