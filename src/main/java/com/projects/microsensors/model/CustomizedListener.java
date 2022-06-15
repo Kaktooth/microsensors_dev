@@ -17,8 +17,6 @@ import javax.persistence.PreUpdate;
 
 @Slf4j
 @Component
-@AllArgsConstructor
-@NoArgsConstructor
 public class CustomizedListener<T extends Domain> {
 
     @PrePersist
