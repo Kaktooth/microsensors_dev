@@ -26,22 +26,6 @@ public class SensorDataUploadController {
 
     private final SensorDataService sensorDataService;
 
-    private final List<SseEmitter> sseEmitter = new LinkedList<>();
-
-    @GetMapping ("/register")
-    public SseEmitter register() throws IOException {
-        log.info("Registering a stream.");
-
-        SseEmitter emitter = new SseEmitter();
-
-        synchronized (sseEmitter) {
-            sseEmitter.add(emitter);
-        }
-        emitter.onCompletion(() -> sseEmitter.remove(emitter));
-
-        return emitter;
-    }
-
     @GetMapping
     public String sensorDataPage() {
         return "Upload data...";
@@ -51,15 +35,6 @@ public class SensorDataUploadController {
     public void saveSensorData(@RequestBody SensorDataRequest sensorDataRequest) {
         sensorDataService.saveSensorData(sensorDataRequest);
         log.info("new sensor data {}", sensorDataRequest);
-        synchronized (sseEmitter) {
-            sseEmitter.forEach((SseEmitter emitter) -> {
-                try {
-                    emitter.send(true, MediaType.APPLICATION_JSON);
-                } catch (IOException e) {
-                    emitter.complete();
-                    sseEmitter.remove(emitter);
-                }
-            });
-        }
+
     }
 }
