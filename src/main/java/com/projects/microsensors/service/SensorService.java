@@ -6,6 +6,7 @@ import com.projects.microsensors.repository.SensorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -30,5 +31,9 @@ public class SensorService {
             .build();
 
         sensorRepository.save(sensor);
+    }
+
+    public List<Sensor> getAllSensors() {
+        return sensorRepository.findAll();
     }
 }

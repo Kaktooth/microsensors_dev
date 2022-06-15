@@ -11,6 +11,7 @@ import org.hibernate.Hibernate;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -45,5 +46,10 @@ public class SensorData extends Domain {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "[ " + receiveDate.toLocalDateTime() + " ] <-^-> " + Arrays.toString(data);
     }
 }

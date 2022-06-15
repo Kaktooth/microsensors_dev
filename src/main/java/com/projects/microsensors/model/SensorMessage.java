@@ -44,4 +44,9 @@ public class SensorMessage extends Domain {
     public int hashCode() {
         return getClass().hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "[ " + receiveDate.toLocalDateTime() + " ] <-^-> " + message;
+    }
 }

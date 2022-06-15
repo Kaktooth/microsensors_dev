@@ -1,6 +1,7 @@
 package com.projects.microsensors.controller.sensor;
 
 import com.projects.microsensors.model.SensorRequest;
+import com.projects.microsensors.service.SensorDTOService;
 import com.projects.microsensors.service.SensorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -9,14 +10,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.UUID;
 
 @Slf4j
 @Controller
 @RequestMapping("/dashboard")
-public record DashboardController(SensorService sensorService) {
+public record DashboardController(SensorService sensorService,
+                                  SensorDTOService sensorDTOService) {
+
 
     @GetMapping
-    public String getDashboard(Model model) {
+    public String getDashboard(Model model, @RequestParam(value = "sensorId", required = false) String sensorId) {
+        if (sensorId != null) {
+            model.addAttribute("sensor",
+                sensorDTOService.getSensorDTO(UUID.fromString(sensorId)));
+        }
+        model.addAttribute("sensorList", sensorService.getAllSensors());
         model.addAttribute("sensorRequest", new SensorRequest());
         return "dashboard";
     }

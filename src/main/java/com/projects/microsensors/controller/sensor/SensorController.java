@@ -3,6 +3,7 @@ package com.projects.microsensors.controller.sensor;
 import com.projects.microsensors.model.SensorRequest;
 import com.projects.microsensors.service.SensorDataService;
 import com.projects.microsensors.service.SensorService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,15 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping("api/v1/sensors")
 public class SensorController {
 
     private final SensorService sensorService;
-
-    @Autowired
-    public SensorController(SensorService sensorService) {
-        this.sensorService = sensorService;
-    }
 
     @GetMapping
     public String sensorPage() {

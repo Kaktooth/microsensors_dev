@@ -13,4 +13,5 @@ public class SensorDTO {
     String name;
     String sensorInfo;
     List<SensorData> sensorData;
+    List<SensorMessage> sensorMessages;
 }

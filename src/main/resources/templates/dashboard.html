@@ -11,36 +11,66 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
-<h2 class="title lead">
-    Sensors Dashboard
-</h2>
+<div class="container px-4">
 
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Add Sensor
-</button>
+    <h2 class="title lead">
+        Sensors Dashboard
+    </h2>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form th:action="@{/dashboard}" method="post" th:object="${sensorRequest}">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Add Sensor</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Add Sensor
+    </button>
+    <form method="get" th:action="@{/dashboard}">
+        <select name="sensorId" id="sensorId">
+            <option th:each="s: ${sensorList}" th:value="${s.id}" th:text="${s.name}"></option>
+        </select>
+    </form>
+    <div th:if="${sensor} != null">
+        <h5 class="lead" th:text="${sensor.name}">
+
+        </h5>
+        <h6 class="lead" th:text="${sensor.sensorInfo}">
+
+        </h6>
+        <div class="row gx-5">
+            <div class="col">
+                <div class="p-3 border bg-light">
+                    <label for="sensorData" class="form-label">Sensor Data</label>
+                    <textarea class="form-control" id="sensorData" rows="30" th:text="${sensor.sensorData}"></textarea>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <input th:field="*{name}" name="name" id="name" class="form-control mb-4"
-                               placeholder='Sensor name'/>
-                        <input th:field="*{sensorInfo}" name="sensorInfo" id="sensorInfo"
-                               class="form-control mb-4"
-                               placeholder='Sensor description'/>
+            </div>
+            <div class="col">
+                <div class="p-3 border bg-light">
+                    <label for="sensorMessages" class="form-label">Sensor Messages</label>
+                    <textarea class="form-control" id="sensorMessages" rows="30" th:text="${sensor.sensorMessages}"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form th:action="@{/dashboard}" method="post" th:object="${sensorRequest}">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">Add Sensor</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </form>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input th:field="*{name}" name="name" id="name" class="form-control mb-4"
+                                   placeholder='Sensor name'/>
+                            <input th:field="*{sensorInfo}" name="sensorInfo" id="sensorInfo"
+                                   class="form-control mb-4"
+                                   placeholder='Sensor description'/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
