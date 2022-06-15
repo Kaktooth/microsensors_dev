@@ -30,9 +30,10 @@ public class SensorDataUploadController {
 
     @PostMapping
     public void saveSensorData(@RequestBody SensorDataRequest sensorDataRequest) {
-        log.info("new sensor data {}", sensorDataRequest);
+
         sensorDataService.saveSensorData(sensorDataRequest);
         publisher.publishEvent(new UpdateEvent(sensorDataRequest));
+        log.info("new sensor data {}", sensorDataRequest);
 
     }
 }

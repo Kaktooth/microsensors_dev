@@ -9,6 +9,7 @@ import com.projects.microsensors.service.SensorService;
 import io.swagger.annotations.Scope;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +44,7 @@ public record DashboardController(SensorService sensorService,
         return "dashboard";
     }
 
+    @GetMapping
     @EventListener
     public String updatePage(UpdateEvent event) {
         log.info("update event");
