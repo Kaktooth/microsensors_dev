@@ -1,6 +1,7 @@
 package com.projects.microsensors.controller.sensor;
 
 import com.projects.microsensors.model.SensorMessageRequest;
+import com.projects.microsensors.model.UpdateEvent;
 import com.projects.microsensors.service.SensorMessageService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,8 +30,7 @@ public class SensorMessageController {
     @PostMapping
     public void saveSensorData(@RequestBody SensorMessageRequest sensorMessageRequest) {
         log.info("new sensor message {}", sensorMessageRequest);
-        System.out.println("save sensor message");
         sensorMessageService.saveSensorMessage(sensorMessageRequest);
-        publisher.publishEvent(new AfterCreateEvent(sensorMessageRequest));
+        publisher.publishEvent(new UpdateEvent(sensorMessageRequest));
     }
 }

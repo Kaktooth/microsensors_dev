@@ -1,9 +1,13 @@
 package com.projects.microsensors.controller.sensor;
 
+import com.projects.microsensors.model.SensorData;
+import com.projects.microsensors.model.SensorMessage;
 import com.projects.microsensors.model.SensorRequest;
+import com.projects.microsensors.model.UpdateEvent;
 import com.projects.microsensors.service.SensorDTOService;
 import com.projects.microsensors.service.SensorService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +23,6 @@ import java.util.UUID;
 @RequestMapping("/dashboard")
 public record DashboardController(SensorService sensorService,
                                   SensorDTOService sensorDTOService) {
-
 
     @GetMapping
     public String getDashboard(Model model, @RequestParam(value = "sensorId", required = false) String sensorId) {
@@ -37,5 +40,10 @@ public record DashboardController(SensorService sensorService,
         log.info("new sensor {}", sensorRequest);
         sensorService.saveSensor(sensorRequest);
         return "dashboard";
+    }
+
+    @EventListener({SensorMessage.class, SensorData.class})
+    public String updatePage(UpdateEvent event) {
+        return "redirect:/dashboard";
     }
 }
