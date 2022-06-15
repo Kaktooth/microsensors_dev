@@ -13,9 +13,9 @@ spring:
     name: sensor
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://ec2-176-34-211-0.eu-west-1.compute.amazonaws.com:5432/d2gkhkukssc659
-    username: haryivpfqipxwn
-    password: 942aeb68e39926bb601986a2c6b72ad9f9b66f5f7b0c6eead53693ea0338f39a
+    url: ${REMOTE_DATABASE_URL:jdbc:postgresql://localhost:5432/microsensors}
+    username: ${REMOTE_DATABASE_USERNAME:postgres}
+    password: ${REMOTE_DATABASE_PASSWORD:admin}
     driver-class-name: org.postgresql.Driver
     jpa:
       properties:
