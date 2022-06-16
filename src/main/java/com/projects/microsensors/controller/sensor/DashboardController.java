@@ -29,6 +29,13 @@ public class DashboardController {
     @PreUpdate
     @PreRemove
     @PrePersist
+    @GetMapping("/update")
+    public String update()
+    {
+        log.info("update");
+        return "redirect:/dashboard";
+    }
+
     @GetMapping
     public String getDashboard(Model model, @RequestParam(value = "sensorId", required = false) String sensorId) {
         if (sensorId != null) {
