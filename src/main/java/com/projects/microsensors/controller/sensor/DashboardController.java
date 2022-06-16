@@ -35,6 +35,7 @@ public class DashboardController {
             model.addAttribute("sensor",
                 sensorDTOService.getSensorDTO(UUID.fromString(sensorId)));
         }
+        log.info("loading dashboard");
         model.addAttribute("sensorId", sensorId);
         model.addAttribute("sensorList", sensorService.getAllSensors());
         model.addAttribute("sensorRequest", new SensorRequest());
