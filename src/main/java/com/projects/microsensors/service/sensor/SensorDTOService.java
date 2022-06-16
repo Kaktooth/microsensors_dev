@@ -48,7 +48,6 @@ public class SensorDTOService {
         sensorRepository.save(sensor);
     }
 
-    @Scheduled(fixedDelay = 1000)
     public SensorDTO getSensorDTO(UUID id) {
         Sensor sensor = sensorRepository.getReferenceById(id);
         List<SensorData> sensorData = sensorDataRepository.findAllBySensorId(id);

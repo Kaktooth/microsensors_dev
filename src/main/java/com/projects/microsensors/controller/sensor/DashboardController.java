@@ -7,6 +7,8 @@ import com.projects.microsensors.service.sensor.SensorDTOService;
 import com.projects.microsensors.service.sensor.SensorService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +31,16 @@ public class DashboardController {
     @GetMapping
     public String getDashboard(Model model, @RequestParam(value = "sensorId", required = false) String sensorId) {
         if (sensorId != null) {
-            SensorDTO dto = sensorDTOService.getSensorDTO(UUID.fromString(sensorId));
-            model.addAttribute("sensor", dto);
+            ThreadPoolTaskScheduler threadPoolTaskScheduler
+                = new ThreadPoolTaskScheduler();
+            threadPoolTaskScheduler.setPoolSize(5);
+
+            threadPoolTaskScheduler.scheduleAtFixedRate(new Runnable() {
+                @Override
+                public void run() {
+                    model.addAttribute("sensor", sensorDTOService.getSensorDTO(UUID.fromString(sensorId)));
+                }
+            }, 2000);
         }
         log.info("loading dashboard");
         model.addAttribute("sensorId", sensorId);
