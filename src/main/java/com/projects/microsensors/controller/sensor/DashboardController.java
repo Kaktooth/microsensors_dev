@@ -34,6 +34,7 @@ public class DashboardController<T extends Domain> {
     @GetMapping("/update")
     private RedirectView afterAnyUpdateInTheDataBase(T object) {
 
+        log.info("update");
         RedirectView redirectView = new RedirectView();
         redirectView.setUrl(
             "https://microsensors.herokuapp.com/dashboard");
