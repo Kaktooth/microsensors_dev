@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Controller
@@ -35,12 +36,14 @@ public class DashboardController {
                 = new ThreadPoolTaskScheduler();
             threadPoolTaskScheduler.setPoolSize(5);
             threadPoolTaskScheduler.initialize();
+            model.addAttribute("sensor", sensorDTOService.getSensorDTO(UUID.fromString(sensorId)));
             threadPoolTaskScheduler.scheduleAtFixedRate(new Runnable() {
                 @Override
                 public void run() {
                     model.addAttribute("sensor", sensorDTOService.getSensorDTO(UUID.fromString(sensorId)));
                 }
             }, 2000);
+
         }
         log.info("loading dashboard");
         model.addAttribute("sensorId", sensorId);
