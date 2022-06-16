@@ -1,6 +1,5 @@
 package com.projects.microsensors.controller.sensor;
 
-import com.projects.microsensors.model.Domain;
 import com.projects.microsensors.model.SensorRequest;
 import com.projects.microsensors.service.sensor.SensorDTOService;
 import com.projects.microsensors.service.sensor.SensorService;
@@ -13,18 +12,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.persistence.PostPersist;
 import javax.persistence.PostRemove;
 import javax.persistence.PostUpdate;
+import javax.persistence.PrePersist;
+import javax.persistence.PreRemove;
+import javax.persistence.PreUpdate;
 import java.util.UUID;
 
 @Slf4j
 @Controller
 @AllArgsConstructor
 @RequestMapping("/dashboard")
-public class DashboardController<T extends Domain> {
+public class DashboardController {
     private final SensorService sensorService;
     private final SensorDTOService sensorDTOService;
 
@@ -32,14 +33,10 @@ public class DashboardController<T extends Domain> {
     @PostUpdate
     @PostRemove
     @GetMapping("/update")
-    private RedirectView afterAnyUpdateInTheDataBase(T object) {
-
+    public String update()
+    {
         log.info("update");
-        RedirectView redirectView = new RedirectView();
-        redirectView.setUrl(
-            "https://microsensors.herokuapp.com/dashboard");
-        return redirectView;
-
+        return "redirect:/dashboard";
     }
 
     @GetMapping
