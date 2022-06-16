@@ -37,7 +37,7 @@ public class DashboardController {
         redirectAttributes.addFlashAttribute("sensorId", sensorId);
         List<Sensor> sensorList = sensorService.getAllSensors();
         redirectAttributes.addAttribute("sensorList", sensorList);
-        sensorList.add(new Sensor(UUID.randomUUID(), "new sensor", "info"));
+
 
         redirectAttributes.addAttribute("sensorRequest", new SensorRequest());
 
