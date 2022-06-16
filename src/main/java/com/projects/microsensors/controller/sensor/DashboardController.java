@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.persistence.PostPersist;
 import javax.persistence.PostRemove;
 import javax.persistence.PostUpdate;
-import javax.persistence.PrePersist;
-import javax.persistence.PreRemove;
-import javax.persistence.PreUpdate;
 import java.util.UUID;
 
 @Slf4j
@@ -29,12 +26,8 @@ public class DashboardController {
     private final SensorService sensorService;
     private final SensorDTOService sensorDTOService;
 
-    @PostPersist
-    @PostUpdate
-    @PostRemove
     @GetMapping("/update")
-    public String update()
-    {
+    public String update() {
         log.info("update");
         return "redirect:/dashboard";
     }
