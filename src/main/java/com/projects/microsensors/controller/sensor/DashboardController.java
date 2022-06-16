@@ -34,7 +34,7 @@ public class DashboardController {
             ThreadPoolTaskScheduler threadPoolTaskScheduler
                 = new ThreadPoolTaskScheduler();
             threadPoolTaskScheduler.setPoolSize(5);
-
+            threadPoolTaskScheduler.initialize();
             threadPoolTaskScheduler.scheduleAtFixedRate(new Runnable() {
                 @Override
                 public void run() {
