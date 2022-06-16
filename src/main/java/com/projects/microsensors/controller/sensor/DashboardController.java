@@ -1,6 +1,7 @@
 package com.projects.microsensors.controller.sensor;
 
 import com.projects.microsensors.model.Sensor;
+import com.projects.microsensors.model.SensorDTO;
 import com.projects.microsensors.model.SensorRequest;
 import com.projects.microsensors.service.sensor.SensorDTOService;
 import com.projects.microsensors.service.sensor.SensorService;
@@ -28,14 +29,13 @@ public class DashboardController {
     @GetMapping
     public String getDashboard(Model model, @RequestParam(value = "sensorId", required = false) String sensorId) {
         if (sensorId != null) {
-            model.addAttribute("sensor",
-                sensorDTOService.getSensorDTO(UUID.fromString(sensorId)));
+            SensorDTO dto = sensorDTOService.getSensorDTO(UUID.fromString(sensorId));
+            model.addAttribute("sensor", dto);
         }
         log.info("loading dashboard");
         model.addAttribute("sensorId", sensorId);
         List<Sensor> sensorList = sensorService.getAllSensors();
         model.addAttribute("sensorList", sensorList);
-        sensorList.add(new Sensor(UUID.randomUUID(),"new sensor","info"));
         model.addAttribute("sensorRequest", new SensorRequest());
 
         return "dashboard";
