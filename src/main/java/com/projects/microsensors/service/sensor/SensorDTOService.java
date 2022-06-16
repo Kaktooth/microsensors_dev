@@ -1,4 +1,4 @@
-package com.projects.microsensors.service;
+package com.projects.microsensors.service.sensor;
 
 import com.projects.microsensors.model.Sensor;
 import com.projects.microsensors.model.SensorDTO;

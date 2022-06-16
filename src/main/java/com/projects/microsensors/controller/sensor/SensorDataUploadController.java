@@ -1,7 +1,7 @@
 package com.projects.microsensors.controller.sensor;
 
 import com.projects.microsensors.model.SensorDataRequest;
-import com.projects.microsensors.service.SensorDataService;
+import com.projects.microsensors.service.sensor.SensorDataService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
