@@ -26,7 +26,6 @@ import java.util.UUID;
 public class DashboardController {
     private final SensorService sensorService;
     private final SensorDTOService sensorDTOService;
-    private SensorDTO sensorDTO;
 
     @GetMapping("/update")
     public String update() {
@@ -37,25 +36,8 @@ public class DashboardController {
     @GetMapping
     public String getDashboard(Model model, @RequestParam(value = "sensorId", required = false) String sensorId) {
         if (sensorId != null) {
-            ThreadPoolTaskScheduler threadPoolTaskScheduler
-                = new ThreadPoolTaskScheduler();
-            threadPoolTaskScheduler.setPoolSize(5);
-            threadPoolTaskScheduler.initialize();
+            SensorDTO sensorDTO = sensorDTOService.getSensorDTO(UUID.fromString(sensorId));
 
-            sensorDTO = sensorDTOService.getSensorDTO(UUID.fromString(sensorId));
-            threadPoolTaskScheduler.scheduleAtFixedRate(new Runnable() {
-                @Override
-                public void run() {
-                    SensorDTO refreshedDto = sensorDTOService.getSensorDTO(UUID.fromString(sensorId));
-                    sensorDTO = SensorDTO.builder()
-                        .id(refreshedDto.getId())
-                        .name(refreshedDto.getName())
-                        .sensorInfo(refreshedDto.getSensorInfo())
-                        .sensorMessages(refreshedDto.getSensorMessages())
-                        .sensorData(refreshedDto.getSensorData())
-                        .build();
-                }
-            }, 2000);
             model.addAttribute("sensor", sensorDTO);
         }
         log.info("loading dashboard");
