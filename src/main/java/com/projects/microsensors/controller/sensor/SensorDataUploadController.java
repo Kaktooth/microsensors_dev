@@ -25,7 +25,11 @@ public class SensorDataUploadController {
 
     @PostMapping
     public void saveSensorData(@RequestBody SensorDataRequest sensorDataRequest) {
-        sensorDataService.saveSensorData(sensorDataRequest);
-        log.info("new sensor data {}", sensorDataRequest);
+        try {
+            sensorDataService.saveSensorData(sensorDataRequest);
+            log.info("new sensor data {}", sensorDataRequest);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 }

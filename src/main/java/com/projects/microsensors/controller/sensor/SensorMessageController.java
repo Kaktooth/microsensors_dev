@@ -27,7 +27,11 @@ public class SensorMessageController {
 
     @PostMapping
     public void saveSensorData(@RequestBody SensorMessageRequest sensorMessageRequest) throws IOException {
-        sensorMessageService.saveSensorMessage(sensorMessageRequest);
-        log.info("new sensor message {}", sensorMessageRequest);
+        try {
+            sensorMessageService.saveSensorMessage(sensorMessageRequest);
+            log.info("new sensor message {}", sensorMessageRequest);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 }
