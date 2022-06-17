@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.persistence.PostPersist;
+import javax.persistence.PostRemove;
+import javax.persistence.PostUpdate;
 import java.util.UUID;
 
 @Slf4j
@@ -22,6 +25,12 @@ import java.util.UUID;
 public class DashboardController {
     private final SensorService sensorService;
     private final SensorDTOService sensorDTOService;
+
+    @GetMapping("/update")
+    public String update() {
+        log.info("update");
+        return "redirect:/dashboard";
+    }
 
     @GetMapping
     public String getDashboard(Model model, @RequestParam(value = "sensorId", required = false) String sensorId) {
