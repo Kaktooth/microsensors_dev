@@ -20,7 +20,6 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-@PersistenceContext(type = PersistenceContextType.EXTENDED)
 public class SensorDTOService {
 
     private final SensorRepository sensorRepository;

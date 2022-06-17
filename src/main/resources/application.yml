@@ -7,7 +7,6 @@ server:
 springfox:
   documentation:
     enabled: false
-
 spring:
   application:
     name: sensor
@@ -30,6 +29,7 @@ spring:
 
   main:
     allow-bean-definition-overriding: true
+    lazy-initialization: false
   flyway:
     enabled: true
     validate-on-migrate: true
