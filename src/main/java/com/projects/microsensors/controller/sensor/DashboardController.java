@@ -28,12 +28,6 @@ public class DashboardController {
     private final SensorDTOService sensorDTOService;
     private SensorDTO sensorDTO;
 
-    @GetMapping("/update")
-    public String update() {
-        log.info("update");
-        return "redirect:/dashboard";
-    }
-
     @GetMapping
     public String getDashboard(Model model, @RequestParam(value = "sensorId", required = false) String sensorId) {
         if (sensorId != null) {
