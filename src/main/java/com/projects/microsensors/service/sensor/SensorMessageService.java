@@ -8,12 +8,14 @@ import com.projects.microsensors.repository.SensorMessageRepository;
 import com.projects.microsensors.repository.SensorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class SensorMessageService {
 
     private final SensorMessageRepository sensorMessageRepository;

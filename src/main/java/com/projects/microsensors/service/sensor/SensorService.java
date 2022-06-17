@@ -5,11 +5,13 @@ import com.projects.microsensors.model.SensorRequest;
 import com.projects.microsensors.repository.SensorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class SensorService {
     private final SensorRepository sensorRepository;
 

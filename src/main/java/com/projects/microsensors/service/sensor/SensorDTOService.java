@@ -10,17 +10,15 @@ import com.projects.microsensors.repository.SensorMessageRepository;
 import com.projects.microsensors.repository.SensorRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import java.util.List;
 import java.util.UUID;
 
 @Slf4j
 @Service
+@Transactional
 public class SensorDTOService {
 
     private final SensorRepository sensorRepository;
@@ -51,7 +49,6 @@ public class SensorDTOService {
         sensorRepository.save(sensor);
     }
 
-    @Transactional
     public SensorDTO getSensorDTO(UUID id) {
         Sensor sensor = sensorRepository.getReferenceById(id);
         List<SensorData> sensorData = sensorDataRepository.findAllBySensorId(id);
