@@ -17,6 +17,17 @@ import javax.persistence.PreUpdate;
 @Component
 public class CustomizedListener<T extends Domain> {
 
+    private DashboardController controller;
+
+    @Autowired
+    public CustomizedListener(DashboardController controller) {
+        this.controller = controller;
+    }
+
+    public CustomizedListener() {
+
+    }
+
     @PrePersist
     @PreUpdate
     @PreRemove
@@ -33,6 +44,7 @@ public class CustomizedListener<T extends Domain> {
     @PostRemove
     private void afterAnyUpdateInTheDataBase(T object) {
         log.info("add or update or delete complete for user: " + object.getId());
+        controller.update();
     }
 
     @PostLoad
