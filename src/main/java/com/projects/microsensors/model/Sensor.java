@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "sensors")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-//@Cacheable
+@Proxy(lazy = false)
 public class Sensor extends Domain {
 
     private String name;
