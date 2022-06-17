@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Value;
-import org.hibernate.annotations.Proxy;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,7 +13,6 @@ import java.util.UUID;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Proxy(lazy=false)
 public class SensorDTO {
     UUID id;
     String name;
