@@ -46,9 +46,4 @@ public class CustomizedListener<T extends Domain> {
         log.info("add or update or delete complete for user: " + object.getId());
         controller.update();
     }
-
-    @PostLoad
-    private void afterLoadInTheDatabase(T object) {
-        log.info(" user loaded from database: " + object.getId());
-    }
 }
