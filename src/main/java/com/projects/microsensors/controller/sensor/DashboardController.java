@@ -49,7 +49,7 @@ public class DashboardController {
                         .sensorData(refreshedDto.getSensorData())
                         .build();
                 }
-            }, 6000);
+            }, 15000);
             model.addAttribute("sensor", sensorDTO);
         }
         log.info("loading dashboard");

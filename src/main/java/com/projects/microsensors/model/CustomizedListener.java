@@ -1,11 +1,8 @@
 package com.projects.microsensors.model;
 
-import com.projects.microsensors.controller.sensor.DashboardController;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.PostLoad;
 import javax.persistence.PostPersist;
 import javax.persistence.PostRemove;
 import javax.persistence.PostUpdate;
