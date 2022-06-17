@@ -49,6 +49,7 @@ public class DashboardController {
                         .sensorData(refreshedDto.getSensorData())
                         .build();
                     log.info("refreshed sensor messages: " + sensorDTO.getSensorMessages());
+                    model.addAttribute("sensor", sensorDTO);
                 }
             }, 10000);
             model.addAttribute("sensor", sensorDTO);
