@@ -13,11 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import java.util.List;
 import java.util.UUID;
 
 @Slf4j
 @Service
+@PersistenceContext(type = PersistenceContextType.EXTENDED)
 public class SensorDTOService {
 
     private final SensorRepository sensorRepository;
