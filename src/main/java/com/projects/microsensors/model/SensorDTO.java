@@ -1,13 +1,20 @@
 package com.projects.microsensors.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Value;
+import org.hibernate.annotations.Proxy;
 
 import java.util.List;
 import java.util.UUID;
 
-@Value
+@Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Proxy(lazy=false)
 public class SensorDTO {
     UUID id;
     String name;

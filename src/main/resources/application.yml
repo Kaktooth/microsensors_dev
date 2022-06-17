@@ -7,7 +7,6 @@ server:
 springfox:
   documentation:
     enabled: false
-
 spring:
   application:
     name: sensor

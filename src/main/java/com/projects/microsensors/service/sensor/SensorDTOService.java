@@ -8,12 +8,17 @@ import com.projects.microsensors.model.SensorRequest;
 import com.projects.microsensors.repository.SensorDataRepository;
 import com.projects.microsensors.repository.SensorMessageRepository;
 import com.projects.microsensors.repository.SensorRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class SensorDTOService {
 
@@ -51,6 +56,7 @@ public class SensorDTOService {
         sensorData = sensorData.stream().sorted().limit(30).toList();
         List<SensorMessage> sensorMessages = sensorMessageRepository.findAllBySensorId(id);
         sensorMessages = sensorMessages.stream().sorted().limit(30).toList();
+        log.info("get dto: " + id);
         return SensorDTO.builder()
             .id(sensor.getId())
             .name(sensor.getName())
