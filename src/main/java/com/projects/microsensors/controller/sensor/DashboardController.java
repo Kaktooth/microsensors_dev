@@ -32,17 +32,16 @@ public class DashboardController {
                                Model model,
                                @RequestParam(value = "sensorId", required = false)
                                    String sensorId,
-                               @RequestParam(value = "saveSensorId", required = false)
-                                   String saveSensorId) {
+                               @ModelAttribute SensorDTO sensor) {
         if (sensorId != null) {
             SensorDTO sensorDTO = sensorDTOService.getSensorDTO(UUID.fromString(sensorId));
             model.addAttribute("sensor", sensorDTO);
+        } else {
+            model.addAttribute("sensor", new SensorDTO());
         }
         log.info("loading dashboard");
-        if (saveSensorId != null) {
-            sensorId = saveSensorId;
-        }
-        redirectAttributes.addAttribute("sensorId", sensorId);
+
+        model.addAttribute("sensorId", sensor.getId());
         List<Sensor> sensorList = sensorService.getAllSensors();
         model.addAttribute("sensorList", sensorList);
         model.addAttribute("sensorRequest", new SensorRequest());

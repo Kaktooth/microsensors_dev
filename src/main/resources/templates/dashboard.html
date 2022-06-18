@@ -39,8 +39,8 @@
     <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Add Sensor
     </button>
-    <form method="get" id="form" th:action="@{/dashboard}">
-        <select name="sensorId" id="sensorId" onchange="update()">
+    <form method="get" id="form" th:action="@{/dashboard}" th:object="${sensor}">
+        <select th:field="*{id}" name="sensorId" id="sensorId" onchange="update()">
             <option th:text="'Select sensor ->'" th:value="${null}" selected></option>
             <option th:each="s: ${sensorList}" th:value="${s.id}" th:text="${s.name}"></option>
         </select>
