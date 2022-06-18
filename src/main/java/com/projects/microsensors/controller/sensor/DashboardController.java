@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,8 +30,7 @@ public class DashboardController {
     private final SensorDTOService sensorDTOService;
 
     @GetMapping
-    public String getDashboard(RedirectAttributes redirectAttributes,
-                               Model model,
+    public String getDashboard(Model model,
                                @RequestParam(value = "id", required = false)
                                    String id,
                                @ModelAttribute SensorDTO selectedSensor) {
@@ -42,6 +42,23 @@ public class DashboardController {
         log.info("loading dashboard");
 
         model.addAttribute("id", id);
+        List<Sensor> sensorList = sensorService.getAllSensors();
+        model.addAttribute("sensorList", sensorList);
+        model.addAttribute("sensorRequest", new SensorRequest());
+
+        return "dashboard";
+    }
+
+    @GetMapping("/{id}")
+    public String getDashboard(Model model,
+                               @PathVariable("id") String id) {
+        if (id != null) {
+            SensorDTO sensorDTO = sensorDTOService.getSensorDTO(UUID.fromString(id));
+            model.addAttribute("sensor", sensorDTO);
+        }
+        model.addAttribute("selectedSensor", new SensorDTO());
+        log.info("loading dashboard");
+
         List<Sensor> sensorList = sensorService.getAllSensors();
         model.addAttribute("sensorList", sensorList);
         model.addAttribute("sensorRequest", new SensorRequest());
