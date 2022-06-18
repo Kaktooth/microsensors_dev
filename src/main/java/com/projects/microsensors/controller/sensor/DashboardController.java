@@ -32,16 +32,16 @@ public class DashboardController {
                                Model model,
                                @RequestParam(value = "sensorId", required = false)
                                    String sensorId,
-                               @ModelAttribute SensorDTO sensor) {
+                               @ModelAttribute SensorDTO selectedSensor) {
         if (sensorId != null) {
             SensorDTO sensorDTO = sensorDTOService.getSensorDTO(UUID.fromString(sensorId));
             model.addAttribute("sensor", sensorDTO);
         } else {
-            model.addAttribute("sensor", new SensorDTO());
+            model.addAttribute("selectedSensor", new SensorDTO());
         }
         log.info("loading dashboard");
 
-        model.addAttribute("sensorId", sensor.getId());
+        model.addAttribute("sensorId", sensorId);
         List<Sensor> sensorList = sensorService.getAllSensors();
         model.addAttribute("sensorList", sensorList);
         model.addAttribute("sensorRequest", new SensorRequest());
