@@ -54,8 +54,8 @@ public class SensorDTOService {
         List<SensorData> sensorData = sensorDataRepository.findAllBySensorId(id);
         List<SensorMessage> sensorMessages = sensorMessageRepository.findAllBySensorId(id);
 
-        sensorData = sensorData.stream().sorted().skip(Math.max(0, sensorData.size() - 5)).toList();
-        sensorMessages = sensorMessages.stream().sorted().skip(Math.max(0, sensorMessages.size() - 5)).toList();
+        sensorData = sensorData.stream().sorted().skip(Math.max(0, sensorData.size() - 10)).toList();
+        sensorMessages = sensorMessages.stream().sorted().skip(Math.max(0, sensorMessages.size() - 10)).toList();
         log.info("get dto: " + id);
         return SensorDTO.builder()
             .id(sensor.getId())

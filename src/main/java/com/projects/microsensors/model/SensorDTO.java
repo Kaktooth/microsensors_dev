@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Value;
-import org.hibernate.annotations.Proxy;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,4 +20,22 @@ public class SensorDTO {
     String sensorInfo;
     List<SensorData> sensorData;
     List<SensorMessage> sensorMessages;
+
+    public String getSensorMessagesString() {
+        String messages = sensorMessages.toString();
+        messages = messages
+            .replace("[", "")
+            .replace("]", "")
+            .replace(",", "");
+        return messages;
+    }
+
+    public String getSensorDataString() {
+        String data = sensorData.toString();
+        data = data
+            .replace("[", "")
+            .replace("]", "")
+            .replace(",", "");
+        return data;
+    }
 }
