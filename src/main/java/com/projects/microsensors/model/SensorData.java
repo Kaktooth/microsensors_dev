@@ -50,7 +50,7 @@ public class SensorData extends Domain implements Comparable<SensorData> {
 
     @Override
     public String toString() {
-        return "[ " + receiveDate.toLocalDateTime() + " ] <-^-> " + Arrays.toString(data);
+        return "[ " + receiveDate.toLocalDateTime() + " ] <-^-> \n" + Arrays.toString(data) + "\n";
     }
 
     @Override

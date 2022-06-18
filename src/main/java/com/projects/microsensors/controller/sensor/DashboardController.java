@@ -35,6 +35,7 @@ public class DashboardController {
                                    String id,
                                @ModelAttribute SensorDTO selectedSensor) {
         if (selectedSensor.getId() != null) {
+            log.info("attach sensor");
             SensorDTO sensorDTO = sensorDTOService.getSensorDTO(selectedSensor.getId());
             model.addAttribute("sensor", sensorDTO);
         }
@@ -53,6 +54,7 @@ public class DashboardController {
     public String getDashboard(Model model,
                                @PathVariable("id") String id) {
         if (id != null) {
+            log.info("attach sensor");
             SensorDTO sensorDTO = sensorDTOService.getSensorDTO(UUID.fromString(id));
             model.addAttribute("sensor", sensorDTO);
         }

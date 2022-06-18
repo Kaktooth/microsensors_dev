@@ -58,7 +58,7 @@ public class SensorMessage extends Domain implements Comparable<SensorMessage> {
 
     @Override
     public String toString() {
-        return "[ " + receiveDate.toLocalDateTime() + " ] <-^-> " + message;
+        return "[ " + receiveDate.toLocalDateTime() + " ] <-^-> \n" + message + "\n";
     }
 
     @Override
