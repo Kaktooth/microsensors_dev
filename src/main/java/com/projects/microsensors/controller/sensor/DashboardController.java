@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,39 +27,18 @@ import java.util.UUID;
 public class DashboardController {
     private final SensorService sensorService;
     private final SensorDTOService sensorDTOService;
-    private SensorDTO sensorDTO;
 
     @GetMapping
-    public String getDashboard(Model model, @RequestParam(value = "sensorId", required = false) String sensorId) {
+    public String getDashboard(RedirectAttributes redirectAttributes, @RequestParam(value = "sensorId", required = false) String sensorId) {
         if (sensorId != null) {
-            ThreadPoolTaskScheduler threadPoolTaskScheduler
-                = new ThreadPoolTaskScheduler();
-            threadPoolTaskScheduler.setPoolSize(5);
-            threadPoolTaskScheduler.initialize();
-
-            sensorDTO = sensorDTOService.getSensorDTO(UUID.fromString(sensorId));
-            threadPoolTaskScheduler.scheduleAtFixedRate(new Runnable() {
-                @Override
-                public void run() {
-                    SensorDTO refreshedDto = sensorDTOService.getSensorDTO(UUID.fromString(sensorId));
-                    sensorDTO = SensorDTO.builder()
-                        .id(refreshedDto.getId())
-                        .name(refreshedDto.getName())
-                        .sensorInfo(refreshedDto.getSensorInfo())
-                        .sensorMessages(refreshedDto.getSensorMessages())
-                        .sensorData(refreshedDto.getSensorData())
-                        .build();
-                    log.info("refreshed sensor messages: " + sensorDTO.getSensorMessages());
-                    model.addAttribute("sensor", sensorDTO);
-                }
-            }, 10000);
-            model.addAttribute("sensor", sensorDTO);
+            SensorDTO sensorDTO = sensorDTOService.getSensorDTO(UUID.fromString(sensorId));
+            redirectAttributes.addAttribute("sensor", sensorDTO);
         }
         log.info("loading dashboard");
-        model.addAttribute("sensorId", sensorId);
+        redirectAttributes.addFlashAttribute("sensorId", sensorId);
         List<Sensor> sensorList = sensorService.getAllSensors();
-        model.addAttribute("sensorList", sensorList);
-        model.addAttribute("sensorRequest", new SensorRequest());
+        redirectAttributes.addAttribute("sensorList", sensorList);
+        redirectAttributes.addAttribute("sensorRequest", new SensorRequest());
 
         return "dashboard";
     }
