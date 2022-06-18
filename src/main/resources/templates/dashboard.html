@@ -23,6 +23,10 @@
                 console.log(queryString)
                 if (urlParams.has('id')) {
                     update();
+                    let sensorMessages = document.getElementById('sensorMessages');
+                    sensorMessages.scrollTop = sensorMessages.scrollHeight;
+                    let sensorData = document.getElementById('sensorData');
+                    sensorData.scrollTop = sensorData.scrollHeight;
                 }
             }, 3000);
         })
