@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Base64;
 import java.util.UUID;
 
 @Service
@@ -29,7 +30,7 @@ public class SensorDataService {
         SensorData sensor = SensorData.builder()
             .id(id)
             .receiveDate(Timestamp.from(Instant.now()))
-            .data(sensorDataRequest.data())
+            .data(Base64.getDecoder().decode(sensorDataRequest.data()))
             .sensorId(sensorDataRequest.sensorId())
             .build();
 
