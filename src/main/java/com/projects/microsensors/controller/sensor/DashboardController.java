@@ -30,18 +30,18 @@ public class DashboardController {
     @GetMapping
     public String getDashboard(RedirectAttributes redirectAttributes,
                                Model model,
-                               @RequestParam(value = "sensorId", required = false)
-                                   String sensorId,
+                               @RequestParam(value = "id", required = false)
+                                   String id,
                                @ModelAttribute SensorDTO selectedSensor) {
-        if (sensorId != null) {
-            SensorDTO sensorDTO = sensorDTOService.getSensorDTO(UUID.fromString(sensorId));
+        if (id != null) {
+            SensorDTO sensorDTO = sensorDTOService.getSensorDTO(UUID.fromString(id));
             model.addAttribute("sensor", sensorDTO);
         } else {
             model.addAttribute("selectedSensor", new SensorDTO());
         }
         log.info("loading dashboard");
 
-        model.addAttribute("sensorId", sensorId);
+        model.addAttribute("sensorId", id);
         List<Sensor> sensorList = sensorService.getAllSensors();
         model.addAttribute("sensorList", sensorList);
         model.addAttribute("sensorRequest", new SensorRequest());
