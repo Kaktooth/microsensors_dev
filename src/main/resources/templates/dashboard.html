@@ -16,25 +16,28 @@
             form.submit();
         }
 
+        function scrollDown(){
+            let sensorMessages = document.getElementById('sensorMessages');
+            sensorMessages.scrollTop = sensorMessages.scrollHeight;
+            let sensorData = document.getElementById('sensorData');
+            sensorData.scrollTop = sensorData.scrollHeight;
+        }
+
         $(document).ready(function () {
             setInterval(function () {
                 const queryString = window.location.search;
                 const urlParams = new URLSearchParams(queryString);
                 console.log(queryString)
+
                 if (urlParams.has('id')) {
                     update();
                 }
             }, 3000);
         })
 
-        let sensorMessages = document.getElementById('sensorMessages');
-        sensorMessages.scrollTop = sensorMessages.scrollHeight;
-        let sensorData = document.getElementById('sensorData');
-        sensorData.scrollTop = sensorData.scrollHeight;
-
     </script>
 </head>
-<body>
+<body onload="scrollDown()">
 <div class="container px-4">
 
     <h2 class="title lead">
