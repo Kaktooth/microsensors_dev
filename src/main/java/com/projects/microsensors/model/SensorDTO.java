@@ -27,7 +27,6 @@ public class SensorDTO {
             .replace("[", "")
             .replace("]", "")
             .replace(",", "");
-        messages += "messages count: " + sensorMessages.size();
         return messages;
     }
 
@@ -37,7 +36,6 @@ public class SensorDTO {
             .replace("[", "")
             .replace("]", "")
             .replace(",", "");
-        data += "data count: " + sensorData.size();
         return data;
     }
 }
