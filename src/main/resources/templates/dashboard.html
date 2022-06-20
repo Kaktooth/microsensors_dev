@@ -73,14 +73,14 @@
             <div class="col">
                 <div class="p-3 border bg-light">
                     <label for="sensorData" class="form-label">Sensor Data</label>
-                    <textarea class="form-control" id="sensorData"
+                    <textarea class="form-control" id="sensorData" rows="30"
                               th:text="${sensor.getSensorDataString()}"></textarea>
                 </div>
             </div>
             <div class="col">
                 <div class="p-3 border bg-light">
                     <label for="sensorMessages" class="form-label">Sensor Messages</label>
-                    <textarea class="form-control" id="sensorMessages"
+                    <textarea class="form-control" id="sensorMessages" rows="30"
                               th:text="${sensor.getSensorMessagesString()}"></textarea>
                 </div>
             </div>
