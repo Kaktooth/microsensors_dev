@@ -10,6 +10,7 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Base64;
@@ -51,7 +52,7 @@ public class SensorData extends Domain implements Comparable<SensorData> {
 
     @Override
     public String toString() {
-        return " \uD83C\uDD83\uD83C\uDD78\uD83C\uDD7C\uD83C\uDD74: " + receiveDate.toLocalDateTime() + " \n" + Arrays.toString(Base64.getDecoder().decode(data)) + "\n";
+        return " \uD83C\uDD83\uD83C\uDD78\uD83C\uDD7C\uD83C\uDD74: " + receiveDate.toLocalDateTime() + " \n" + Arrays.toString(Base64.getDecoder().decode(new String(data, StandardCharsets.UTF_8))) + "\n";
     }
 
     @Override
