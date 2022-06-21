@@ -10,6 +10,7 @@ import org.springframework.security.crypto.codec.Utf8;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Base64;
@@ -36,7 +37,7 @@ public class SensorDataService {
         SensorData sensor = SensorData.builder()
             .id(id)
             .receiveDate(Timestamp.from(Instant.now()))
-            .data(Base64.getMimeDecoder().decode(Utf8.decode(sensorDataRequest.data())))
+            .data(new String(sensorDataRequest.data()).getBytes(StandardCharsets.UTF_8))
             .sensorId(sensorDataRequest.sensorId())
             .build();
 
