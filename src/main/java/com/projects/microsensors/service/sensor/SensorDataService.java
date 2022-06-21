@@ -30,7 +30,7 @@ public class SensorDataService {
         SensorData sensor = SensorData.builder()
             .id(id)
             .receiveDate(Timestamp.from(Instant.now()))
-            .data(Base64.getDecoder().decode(sensorDataRequest.data()))
+            .data(Base64.getMimeDecoder().decode(sensorDataRequest.data()))
             .sensorId(sensorDataRequest.sensorId())
             .build();
 
