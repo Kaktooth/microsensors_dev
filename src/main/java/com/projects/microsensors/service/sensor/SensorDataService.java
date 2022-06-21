@@ -37,7 +37,7 @@ public class SensorDataService {
         SensorData sensor = SensorData.builder()
             .id(id)
             .receiveDate(Timestamp.from(Instant.now()))
-            .data(new String(sensorDataRequest.data()).getBytes(StandardCharsets.UTF_8))
+            .data(sensorDataRequest.data())
             .sensorId(sensorDataRequest.sensorId())
             .build();
 
