@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.Hibernate;
 
@@ -50,10 +51,11 @@ public class SensorData extends Domain implements Comparable<SensorData> {
         return getClass().hashCode();
     }
 
+    @SneakyThrows
     @Override
     public String toString() {
         System.out.println(data);
-        return " \uD83C\uDD83\uD83C\uDD78\uD83C\uDD7C\uD83C\uDD74: " + receiveDate.toLocalDateTime() + " \n Data: " + Arrays.toString(Base64.getDecoder().decode(data)) + "\nBytes:" + Arrays.toString(data) + "\n";
+        return " \uD83C\uDD83\uD83C\uDD78\uD83C\uDD7C\uD83C\uDD74: " + receiveDate.toLocalDateTime() + " \n Data: " + Arrays.toString(Base64.getDecoder().decode(new String(data,"UTF-8"))) + "\nBytes:" + Arrays.toString(data) + "\n";
     }
 
     @Override
