@@ -44,25 +44,25 @@
         Sensors Dashboard
     </h2>
 
-    <button th:if="${id == null}" type="button" class="btn btn-primary mb-4" data-bs-toggle="modal"
-            data-bs-target="#exampleModal">
+    <button th:if="${sensorId == null}" type="button" class="btn btn-primary mb-4" data-bs-toggle="modal"
+            data-bs-target="#createSensor">
         Add sensor
     </button>
 
     <form method="get" th:action="@{/dashboard}">
-        <button th:if="${id != null}" type="submit" class="btn btn-primary mb-4">
+        <button th:if="${sensorId != null}" type="submit" class="btn btn-primary mb-4">
             Go back
         </button>
     </form>
 
-    <form method="get" id="form" th:action="@{/dashboard/{id}(id = ${id})}"
+    <form method="get" id="form" th:action="@{/dashboard/{id}(id = ${sensorId})}"
           th:object="${selectedSensor}">
         <select name="sensorId" id="sensorId" onchange="update()" th:hidden="${id!=null}">
             <option th:text="'Select sensor ->'" th:value="${null}" selected></option>
             <option th:each="s: ${sensorList}" th:value="${s.id}" th:text="${s.name}"></option>
         </select>
     </form>
-    <div th:if="${sensor} != null">
+    <div th:if="${sensorId} != null">
         <h5 class="lead" th:text="${sensor.name}">
 
         </h5>
@@ -87,7 +87,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="createSensor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form th:action="@{/dashboard}" method="post" th:object="${sensorRequest}">
