@@ -57,7 +57,7 @@
 
     <form method="get" id="form" th:action="@{/dashboard/{id}(id = ${id})}"
           th:object="${selectedSensor}">
-        <select th:field="*{id}" name="sensorId" id="sensorId" onchange="update()" th:hidden="${id!=null}">
+        <select name="sensorId" id="sensorId" onchange="update()" th:hidden="${id!=null}">
             <option th:text="'Select sensor ->'" th:value="${null}" selected></option>
             <option th:each="s: ${sensorList}" th:value="${s.id}" th:text="${s.name}"></option>
         </select>
