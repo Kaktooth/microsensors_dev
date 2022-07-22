@@ -20,7 +20,7 @@ public class SensorService {
         this.sensorRepository = sensorRepository;
     }
 
-    public void saveSensor(SensorRequest sensorRequest) {
+    public Sensor saveSensor(SensorRequest sensorRequest) {
         UUID id = sensorRequest.getId();
         if (id == null) {
             id = UUID.randomUUID();
@@ -32,7 +32,7 @@ public class SensorService {
             .sensorInfo(sensorRequest.getSensorInfo())
             .build();
 
-        sensorRepository.save(sensor);
+        return sensorRepository.save(sensor);
     }
 
     public List<Sensor> getAllSensors() {
