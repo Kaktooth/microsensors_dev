@@ -70,6 +70,6 @@ public class DashboardController {
     public String createNewSensor(@ModelAttribute SensorRequest sensorRequest) {
         log.info("new sensor {}", sensorRequest);
         sensorService.saveSensor(sensorRequest);
-        return "dashboard";
+        return "dashboard/" + sensorRequest.getId();
     }
 }
