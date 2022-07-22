@@ -71,7 +71,18 @@ public class DashboardController {
                                   Model model) {
         log.info("new sensor {}", sensorRequest);
         Sensor sensor = sensorService.saveSensor(sensorRequest);
+        if (sensor.getId() != null) {
+            log.info("attach sensor");
+            SensorDTO sensorDTO = sensorDTOService.getSensorDTO(sensor.getId());
+            model.addAttribute("sensor", sensorDTO);
+        }
+        model.addAttribute("selectedSensor", new SensorDTO());
+        log.info("loading dashboard");
+
         model.addAttribute("id", sensor.getId().toString());
+        List<Sensor> sensorList = sensorService.getAllSensors();
+        model.addAttribute("sensorList", sensorList);
+        model.addAttribute("sensorRequest", new SensorRequest());
         return "dashboard";
     }
 }
