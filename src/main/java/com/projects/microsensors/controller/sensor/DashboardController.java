@@ -67,9 +67,11 @@ public class DashboardController {
     }
 
     @PostMapping
-    public String createNewSensor(@ModelAttribute SensorRequest sensorRequest) {
+    public String createNewSensor(@ModelAttribute SensorRequest sensorRequest,
+                                  @RequestParam(value = "id", required = false)
+                                      String id) {
         log.info("new sensor {}", sensorRequest);
         sensorService.saveSensor(sensorRequest);
-        return "dashboard/" + sensorRequest.getId();
+        return "dashboard/"+id;
     }
 }
