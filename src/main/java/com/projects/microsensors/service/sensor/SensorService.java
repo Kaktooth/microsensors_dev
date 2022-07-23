@@ -1,5 +1,6 @@
 package com.projects.microsensors.service.sensor;
 
+import com.opencsv.CSVWriter;
 import com.projects.microsensors.model.Sensor;
 import com.projects.microsensors.model.SensorRequest;
 import com.projects.microsensors.repository.SensorRepository;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.FileWriter;
 import java.util.List;
 import java.util.UUID;
 
