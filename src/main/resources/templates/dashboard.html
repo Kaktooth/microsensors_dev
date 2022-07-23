@@ -75,7 +75,7 @@
             <option th:each="s: ${sensorList}" th:value="${s.id}" th:text="${s.name}"></option>
         </select>
     </form>
-    <div th:if="${sensor} != null and chart == true">
+    <div th:if="${sensor} != null and ${chart} == true">
         <h5 class="lead" th:text="${sensor.name}"></h5>
         <h6 class="lead" th:text="${sensor.sensorInfo}"></h6>
 
@@ -88,7 +88,7 @@
         </figure>
     </div>
 
-    <div th:if="${sensor} != null and chart == false">
+    <div th:if="${sensor} != null and ${chart} == false">
         <h5 class="lead" th:text="${sensor.name}"></h5>
         <h6 class="lead" th:text="${sensor.sensorInfo}"></h6>
 
