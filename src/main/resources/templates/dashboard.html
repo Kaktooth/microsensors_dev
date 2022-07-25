@@ -64,7 +64,7 @@
         </button>
     </form>
 
-    <form method="get" th:action="@{/dashboard/{id}(id = {id})/chart}">
+    <form method="get" th:action="@{/dashboard/{id}(id = ${id})/chart}">
         <button th:if="${id != null}" type="submit" class="btn btn-light mb-4 float-right">
             Go to chart>
         </button>
