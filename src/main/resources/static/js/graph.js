@@ -43,7 +43,7 @@ Highcharts.chart('container', {
     },
 
     data: {
-        csvURL: 'https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/analytics.csv',
+        csvURL: 'https://microsensors.herokuapp.com/dashboard/d215b721-3642-45bb-bc9d-f15057a1183f/chart-data/data.csv',
         beforeParse: function (csv) {
             return csv.replace(/\n\n/g, '\n');
         }
