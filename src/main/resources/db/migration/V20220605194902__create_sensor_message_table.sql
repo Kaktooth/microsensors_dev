@@ -1,4 +1,4 @@
-CREATE TABLE sensor_messages
+CREATE TABLE IF NOT EXISTS sensor_messages
 (
     id           UUID PRIMARY KEY,
     receive_date TIMESTAMP NOT NULL,

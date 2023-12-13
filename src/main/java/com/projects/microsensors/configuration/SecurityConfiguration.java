@@ -60,30 +60,30 @@ public class SecurityConfiguration {
             .authoritiesByUsernameQuery("SELECT username, email, authority FROM authorities WHERE username = ?");
     }
 
-    @Bean
-    public ServletWebServerFactory servletContainer() {
-        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
-            @Override
-            protected void postProcessContext(Context context) {
-                var securityConstraint = new SecurityConstraint();
-                securityConstraint.setUserConstraint("CONFIDENTIAL");
-                var collection = new SecurityCollection();
-                collection.addPattern("/*");
-                securityConstraint.addCollection(collection);
-                context.addConstraint(securityConstraint);
-            }
-
-        };
-        tomcat.addAdditionalTomcatConnectors(getHttpConnector());
-        return tomcat;
-    }
-
-    private Connector getHttpConnector() {
-        var connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
-        connector.setScheme("http");
-        connector.setPort(8082);
-        connector.setSecure(false);
-        connector.setRedirectPort(8443);
-        return connector;
-    }
+//    @Bean
+//    public ServletWebServerFactory servletContainer() {
+//        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
+//            @Override
+//            protected void postProcessContext(Context context) {
+//                var securityConstraint = new SecurityConstraint();
+//                securityConstraint.setUserConstraint("CONFIDENTIAL");
+//                var collection = new SecurityCollection();
+//                collection.addPattern("/*");
+//                securityConstraint.addCollection(collection);
+//                context.addConstraint(securityConstraint);
+//            }
+//
+//        };
+//        tomcat.addAdditionalTomcatConnectors(getHttpConnector());
+//        return tomcat;
+//    }
+//
+//    private Connector getHttpConnector() {
+//        var connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
+//        connector.setScheme("http");
+//        connector.setPort(8082);
+//        connector.setSecure(false);
+//        connector.setRedirectPort(443);
+//        return connector;
+//    }
 }

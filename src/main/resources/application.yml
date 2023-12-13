@@ -32,15 +32,15 @@ spring:
     lazy-initialization: false
   flyway:
     enabled: true
+#    baseline-on-migrate: true
     validate-on-migrate: true
-
-    mvc:
-      format:
-        date: yyyy.MM.dd
-        date-time: yyyy.MM.dd HH:mm
-        time: HH:mm:ss
-      view:
-        prefix: /
-        suffix: .jsp
-      pathmatch:
-        matching-strategy: ant_path_matcher
+  mvc:
+    format:
+      date: yyyy.MM.dd
+      date-time: yyyy.MM.dd HH:mm
+      time: HH:mm:ss
+    view:
+      prefix: /
+      suffix: .jsp
+    pathmatch:
+      matching-strategy: ant_path_matcher

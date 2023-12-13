@@ -1,4 +1,4 @@
-CREATE TABLE sensors_data
+CREATE TABLE IF NOT EXISTS sensors_data
 (
     id           UUID PRIMARY KEY,
     receive_date TIMESTAMP   NOT NULL,

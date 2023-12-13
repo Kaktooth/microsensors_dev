@@ -1,4 +1,4 @@
-CREATE TABLE authorities
+CREATE TABLE IF NOT EXISTS authorities
 (
     id        SERIAL  NOT NULL,
     username  VARCHAR NOT NULL,
