@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.opencsv:opencsv:5.6'
+    implementation 'com.opencsv:opencsv:5.9'
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'

@@ -1,13 +1,7 @@
 package com.projects.microsensors.configuration;
 
 import com.projects.microsensors.auth.LoginAuthenticationProvider;
-import org.apache.catalina.Context;
-import org.apache.catalina.connector.Connector;
-import org.apache.tomcat.util.descriptor.web.SecurityCollection;
-import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,20 +9,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-
-    String errorPage = "/error";
-    String logInPage = "/log-in";
-    String createAccountPage = "/create-account";
-    String api = "/api/**";
-    String page = "/";
-
 
     private final DataSource dataSource;
     private final PasswordEncoder passwordEncoder;
@@ -41,22 +27,23 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+        http.anonymous()
+                .and().csrf().disable();
 
         return http.build();
     }
 
     @Autowired
     void configureGlobal(
-        AuthenticationManagerBuilder auth,
-        LoginAuthenticationProvider authenticationProvider
+            AuthenticationManagerBuilder auth,
+            LoginAuthenticationProvider authenticationProvider
     ) throws Exception {
 
         auth.authenticationProvider(authenticationProvider)
-            .jdbcAuthentication()
-            .dataSource(dataSource)
-            .passwordEncoder(passwordEncoder)
-            .usersByUsernameQuery("SELECT username, email, password, enabled FROM users WHERE username = ?")
-            .authoritiesByUsernameQuery("SELECT username, email, authority FROM authorities WHERE username = ?");
+                .jdbcAuthentication()
+                .dataSource(dataSource)
+                .passwordEncoder(passwordEncoder)
+                .usersByUsernameQuery("SELECT username, email, password, enabled FROM users WHERE username = ?")
+                .authoritiesByUsernameQuery("SELECT username, email, authority FROM authorities WHERE username = ?");
     }
 }
