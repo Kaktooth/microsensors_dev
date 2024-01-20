@@ -1,0 +1,9 @@
+@font-face {
+	font-family: 'LineAwesome';
+	src: url(../../assets/fonts/LineAwesome-dbd5a1c4eb110dae3bdf42fdecb49915.eot?v=1.1.) format('embedded-opentype'),
+	url(../../assets/fonts/LineAwesome-dbd5a1c4eb110dae3bdf42fdecb49915.eot?%3Fv=1.1.) format('embedded-opentype'),
+	url(../../assets/fonts/LineAwesome-652dd777c5c4541f9308caa4cc1687cd.svg?v=1.1.) format('svg');
+	font-weight: 400;
+	font-style: normal;
+	font-display: auto;
+}

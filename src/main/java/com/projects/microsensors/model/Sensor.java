@@ -1,16 +1,12 @@
 package com.projects.microsensors.model;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Proxy;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -23,14 +19,38 @@ import java.util.UUID;
 @Proxy(lazy = false)
 public class Sensor extends Domain {
 
-    private String name;
-    private String sensorInfo;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "sensors_types",
+            joinColumns = {@JoinColumn(name = "sensor_id")},
+            inverseJoinColumns = {@JoinColumn(name = "sensor_type_id")}
+    )
+    private List<SensorType> sensorTypes;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "sensors_placements",
+            joinColumns = {@JoinColumn(name = "sensor_id")},
+            inverseJoinColumns = {@JoinColumn(name = "placement_id")}
+    )
+    private List<Placement> placements;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id")
+    private Country country;
+
+    private Boolean personal;
+
+    private UUID userId;
 
     @Builder
-    public Sensor(UUID id, String name, String sensorInfo) {
+    public Sensor(UUID id, List<SensorType> sensorTypes, List<Placement> placements, Country country, Boolean personal, UUID userId) {
         super(id);
-        this.name = name;
-        this.sensorInfo = sensorInfo;
+        this.sensorTypes = sensorTypes;
+        this.placements = placements;
+        this.country = country;
+        this.personal = personal;
+        this.userId = userId;
     }
 
     @Override

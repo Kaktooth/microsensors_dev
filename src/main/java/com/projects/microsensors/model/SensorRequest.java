@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -13,15 +14,33 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SensorRequest {
-    UUID id;
-    String name;
-    String sensorInfo;
 
-    public SensorRequest(
-        String name,
-        String sensorInfo) {
+    UUID id;
+
+    List<UUID> sensorTypes;
+
+    List<UUID> placements;
+
+    List<SensorType> sensorTypesConverted;
+
+    List<Placement> placementsConverted;
+
+    Country country;
+
+    Boolean personal;
+
+    List<SensorData> sensorData;
+
+    List<SensorMessage> sensorMessages;
+
+    public SensorRequest(List<UUID> sensorTypes, List<UUID> placements, Country country,
+                         Boolean personal, List<SensorData> sensorData, List<SensorMessage> sensorMessages) {
         this.id = UUID.randomUUID();
-        this.name = name;
-        this.sensorInfo = sensorInfo;
+        this.sensorTypes = sensorTypes;
+        this.placements = placements;
+        this.country = country;
+        this.personal = personal;
+        this.sensorData = sensorData;
+        this.sensorMessages = sensorMessages;
     }
 }

@@ -1,16 +1,11 @@
 package com.projects.microsensors.model;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.Hibernate;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Objects;
@@ -25,7 +20,9 @@ import java.util.UUID;
 public class SensorData extends Domain implements Comparable<SensorData> {
 
     Timestamp receiveDate;
+
     byte[] data;
+
     UUID sensorId;
 
     @Builder
@@ -52,10 +49,10 @@ public class SensorData extends Domain implements Comparable<SensorData> {
     @Override
     public String toString() {
         return "\uD83C\uDD83\uD83C\uDD78\uD83C\uDD7C\uD83C\uDD74: "
-            + receiveDate.toLocalDateTime()
-            + "\nData: "
-            + new String(data)
-            + "\nBytes: " + Arrays.toString(data) + "\n";
+                + receiveDate.toLocalDateTime()
+                + "\nData: "
+                + new String(data)
+                + "\nBytes: " + Arrays.toString(data) + "\n";
     }
 
     @Override

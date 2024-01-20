@@ -1,0 +1,18 @@
+INSERT INTO placements (name)
+VALUES ('Outdoors'),
+       ('Indoors'),
+       ('Surface-mounted'),
+       ('Embedded'),
+       ('Ceiling-mounted'),
+       ('Wall-mounted'),
+       ('Mounted on equipment'),
+       ('Handheld'),
+       ('Wearable'),
+       ('Integrated into devices'),
+       ('Fixed on machinery'),
+       ('Distributed across area'),
+       ('Field-mounted'),
+       ('Roadside installation'),
+       ('Public spaces'),
+       ('Satellites'),
+       ('Connected home device');

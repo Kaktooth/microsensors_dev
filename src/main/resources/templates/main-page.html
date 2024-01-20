@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml" data-bs-theme="light" lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Open Sensor Data</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <link href="/css/styles.css" rel="stylesheet"/>
+    <link href="/css/articles-badges-images.css" rel="stylesheet"/>
+    <link href="/css/contact-details-icons.css" rel="stylesheet"/>
+    <link href="/css/line-awesome.css" rel="stylesheet"/>
+    <script type="text/javascript" th:src="@{/js/bs-init.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bold-and-bright.js}"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-md sticky-top navbar-shrink py-3 navbar-light" id="mainNav">
+    <div class="container"><a class="navbar-brand d-flex align-items-center" href="/main"><span
+            class="bs-icon-md bs-icon-rounded bs-icon-primary shadow d-flex justify-content-center align-items-center pulse animated me-2 bs-icon"><img
+            class="rounded shadow" src="https://i.ibb.co/p4ctFw5/download-3.jpg" alt="download-3" data-is360="0"
+            style="width:50px;height:50px;display:block;"></span><span>Open Sensor Data</span></a>
+        <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span
+                class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"></li>
+                <li class="nav-item"></li>
+                <li class="nav-item"></li>
+                <li class="nav-item"></li>
+                <li class="nav-item"></li>
+            </ul>
+            <a th:if="${remoteUser == null}" class="btn btn-primary shadow" role="button"
+               data-bss-hover-animate="pulse" href="/sign-up">Sign Up</a>
+            <a th:if="${remoteUser != null}" sec:authentication="name" class="nav-link px-2 text-white"
+               href="/dashboard"></a>
+        </div>
+    </div>
+</nav>
+<header class="bg-primary-gradient"></header>
+<section style="padding-top: 8px;margin-top: -50px;margin-bottom: 21px;">
+    <div class="container py-4 py-xl-5" style="margin-top: -24px;margin-bottom: -106px;padding-bottom: 19px;">
+        <div class="row mb-5" style="padding-bottom: 0px;margin-bottom: 25px;">
+            <div class="col-md-8 col-xl-6 text-center mx-auto">
+                <h2><br><strong>Welcome, here is your path to free seamless sensor integration and data
+                    visualization</strong></h2>
+                <p class="w-lg-50"><strong><span style="color: var(--tw-prose-bold);">Connect, Create, Collaborate: Unleash the Power of Sensors for Free!</span></strong>
+                </p>
+                <a th:if="${remoteUser == null}" class="btn btn-primary shadow" role="button"
+                   data-bss-hover-animate="pulse" href="/sign-up">Get Started</a>
+                <a th:if="${remoteUser != null}" class="btn btn-primary shadow" role="button"
+                   data-bss-hover-animate="pulse" href="/dashboard">Get Started</a>
+            </div>
+        </div>
+    </div>
+</section>
+<section style="padding-bottom: 54px;">
+    <div class="container bg-primary-gradient py-5"
+         style="padding-bottom: 110px;margin-bottom: -78px;padding-top: 59px;margin-top: -48px;">
+        <div class="row" style="margin-top: -26px;">
+            <div class="col-md-8 col-xl-6 text-center mx-auto">
+                <p class="fw-bold text-success mb-2"></p>
+                <h3 class="fw-bold"></h3>
+            </div>
+        </div>
+        <div class="py-5 p-lg-5" style="padding-bottom: 124px;margin-bottom: -82px;">
+            <h4 style="text-align: center;">We offer you the following features for free</h4>
+            <div class="row row-cols-1 row-cols-md-2 mx-auto" style="max-width: 900px;">
+                <div class="col mb-5">
+                    <div class="card shadow-sm">
+                        <div class="card-body px-4 py-5 px-md-5" data-bss-hover-animate="pulse">
+                            <div class="bs-icon-lg d-flex justify-content-center align-items-center mb-3 bs-icon"
+                                 style="top: 1rem;right: 1rem;position: absolute;"><i
+                                    class="la la-area-chart text-success"></i></div>
+                            <h5 class="fw-bold card-title"><strong><span style="color: var(--tw-prose-bold);">Visualize in Real Time</span></strong>
+                            </h5>
+                            <p class="text-muted card-text mb-4">Gain insights for your sensor in real-time with&nbsp;<a
+                                    href="https://developers.google.com/chart">Google charts</a>&nbsp;</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-5">
+                    <div class="card shadow-sm">
+                        <div class="card-body px-4 py-5 px-md-5">
+                            <div class="bs-icon-lg d-flex justify-content-center align-items-center mb-3 bs-icon"
+                                 style="top: 1rem;right: 1rem;position: absolute;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                     viewBox="0 0 16 16" class="bi bi-bezier text-success">
+                                    <path fill-rule="evenodd"
+                                          d="M0 10.5A1.5 1.5 0 0 1 1.5 9h1A1.5 1.5 0 0 1 4 10.5v1A1.5 1.5 0 0 1 2.5 13h-1A1.5 1.5 0 0 1 0 11.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm10.5.5A1.5 1.5 0 0 1 13.5 9h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM6 4.5A1.5 1.5 0 0 1 7.5 3h1A1.5 1.5 0 0 1 10 4.5v1A1.5 1.5 0 0 1 8.5 7h-1A1.5 1.5 0 0 1 6 5.5zM7.5 4a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"></path>
+                                    <path d="M6 4.5H1.866a1 1 0 1 0 0 1h2.668A6.517 6.517 0 0 0 1.814 9H2.5c.123 0 .244.015.358.043a5.517 5.517 0 0 1 3.185-3.185A1.503 1.503 0 0 1 6 5.5zm3.957 1.358A1.5 1.5 0 0 0 10 5.5v-1h4.134a1 1 0 1 1 0 1h-2.668a6.517 6.517 0 0 1 2.72 3.5H13.5c-.123 0-.243.015-.358.043a5.517 5.517 0 0 0-3.185-3.185z"></path>
+                                </svg>
+                            </div>
+                            <h5 class="fw-bold card-title"><strong><span style="color: var(--tw-prose-bold);">Connect Seamlessly</span></strong>
+                            </h5>
+                            <p class="text-muted card-text mb-4">You just need the ID of the created sensor, that's
+                                all.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body px-4 py-5 px-md-5">
+                            <div class="bs-icon-lg d-flex justify-content-center align-items-center mb-3 bs-icon"
+                                 style="top: 1rem;right: 1rem;position: absolute;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                     viewBox="0 0 16 16" class="bi bi-door-open-fill text-success">
+                                    <path d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15zM11 2h.5a.5.5 0 0 1 .5.5V15h-1zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1"></path>
+                                </svg>
+                            </div>
+                            <h5 class="fw-bold card-title"><strong><span style="color: var(--tw-prose-bold);">Public or Private</span></strong>
+                            </h5>
+                            <p class="text-muted card-text mb-4"><span style="color: rgb(55, 65, 81);">Choose how you want to share your sensor data. Keep it private for personal projects, or make it public to contribute to the global sensor data pool.</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body px-4 py-5 px-md-5">
+                            <div class="bs-icon-lg d-flex justify-content-center align-items-center mb-3 bs-icon"
+                                 style="top: 1rem;right: 1rem;position: absolute;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor"
+                                     viewBox="0 0 16 16" class="bi bi-hearts text-success">
+                                    <path fill-rule="evenodd"
+                                          d="M4.931.481c1.627-1.671 5.692 1.254 0 5.015-5.692-3.76-1.626-6.686 0-5.015Zm6.84 1.794c1.084-1.114 3.795.836 0 3.343-3.795-2.507-1.084-4.457 0-3.343ZM7.84 7.642c2.71-2.786 9.486 2.09 0 8.358-9.487-6.268-2.71-11.144 0-8.358Z"></path>
+                                </svg>
+                            </div>
+                            <h5 class="fw-bold card-title">Public free access to the API</h5>
+                            <p class="text-muted card-text mb-4">We empower developers and researchers around the world
+                                by providing public API access to your open sensor data.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container py-5">
+        <div class="mx-auto" style="max-width: 900px;">
+            <div class="row row-cols-1 row-cols-md-2 d-flex justify-content-center">
+                <div class="col mb-4" data-aos="fade">
+                    <div class="card bg-primary-subtle">
+                        <div class="card-body text-center px-4 py-5 px-md-5">
+                            <p class="fw-bold text-primary card-text mb-2"><span
+                                    style="font-weight: normal !important; color: rgb(55, 65, 81);">✨</span><strong><span
+                                    style="color: var(--tw-prose-bold);">User-Friendly</span></strong></p>
+                            <h5 class="fw-bold card-title mb-3"><span
+                                    style="font-weight: normal !important; color: rgb(55, 65, 81);">Intuitive design makes sensor creation, connection, and data visualization a breeze.</span>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-4" data-aos="fade">
+                    <div class="card bg-primary bg-opacity-75">
+                        <div class="card-body text-center px-4 py-5 px-md-5">
+                            <p class="fw-bold text-secondary card-text mb-2"><span
+                                    style="font-weight: normal !important; color: rgb(55, 65, 81);">🌐</span><strong><span
+                                    style="color: var(--bs-warning);">Global Collaboration</span></strong>
+                            </p>
+                            <h5 class="fw-bold card-title mb-3">
+                                <span style="font-weight: normal !important; color: rgb(55, 65, 81);">Contribute to the global community or keep your data private – the choice is yours.</span>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-4" data-aos="fade">
+                    <div class="card bg-info-subtle">
+                        <div class="card-body text-center px-4 py-5 px-md-5">
+                            <p class="fw-bold text-info card-text mb-2"><span
+                                    style="font-weight: normal !important; color: rgb(55, 65, 81);">🚀 </span><strong><span
+                                    style="color: var(--tw-prose-bold);">Innovation Hub</span></strong></p>
+                            <h5 class="fw-bold card-title mb-3"><span
+                                    style="font-weight: normal !important; color: rgb(55, 65, 81);">Inspire and be inspired by sharing your sensor data with developers and researchers worldwide.</span>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer class="bg-primary-gradient">
+    <div class="container py-4 py-lg-5">
+        <hr>
+        <div class="text-muted d-flex justify-content-between align-items-center pt-3">
+            <p class="mb-0">Copyright © 2024 open-sensors-data.systems - All Rights Reserved.</p>
+            <a class="text-muted" href="/main/terms">Terms of Service</a>
+            <a class="text-muted" href="/main/privacy">Privacy Policy</a>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

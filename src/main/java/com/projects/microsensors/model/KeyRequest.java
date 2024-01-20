@@ -1,10 +1,10 @@
 package com.projects.microsensors.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "key_requests")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper = true)
 public class KeyRequest extends Domain {
 
     @Builder

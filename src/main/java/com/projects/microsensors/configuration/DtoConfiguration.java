@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DtoConfiguration {
     @Bean
-    public SensorDTO getNewDto(){
+    public SensorDTO getNewDto() {
         return new SensorDTO();
     }
 }

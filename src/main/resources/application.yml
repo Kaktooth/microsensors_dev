@@ -1,9 +1,19 @@
 server:
-  port: 8080
   error:
     include-message: always
     include-exception: true
-
+  ssl:
+    key-store: ${SERVER_SSL_KEY-STORE:open-sensor-data.systems.p12}
+    key-alias: ${SERVER_SSL_KEY-ALIAS:open-sensor-data.systems}
+    enabled-protocols: TLSv1.1,TLSv1.2,TLSv1.3
+    key-password: ${SERVER_SSL_KEY-PASSWORD}
+    trust-store-password: ${SERVER_SSL_KEY-STORE-PASSWORD}
+    key-store-type: ${SERVER_SSL_KEY-STORE-TYPE:pkcs12}
+  tomcat:
+    remoteip:
+      remote-ip-header: x-forwarded-for
+      protocol-header: x-forwarded-proto
+  port: 443
 springfox:
   documentation:
     enabled: false
@@ -32,7 +42,7 @@ spring:
     lazy-initialization: false
   flyway:
     enabled: true
-#    baseline-on-migrate: true
+    #    baseline-on-migrate: true
     validate-on-migrate: true
   mvc:
     format:

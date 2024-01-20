@@ -10,6 +10,6 @@ import java.util.UUID;
 
 @NoRepositoryBean
 public interface CommonRepository<E extends Domain> extends JpaRepository<E, UUID>,
-    PagingAndSortingRepository<E, UUID>,
-    JpaSpecificationExecutor<E> {
+        PagingAndSortingRepository<E, UUID>,
+        JpaSpecificationExecutor<E> {
 }

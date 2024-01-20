@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" data-bs-theme="light" lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Sensors Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <script
-            src="https://code.jquery.com/jquery-3.7.1.min.js"
-            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
+          rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="https://code.highcharts.com/modules/data.js"></script>
@@ -20,6 +21,15 @@
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/genre-selector.js}"></script>
+    <script type="text/javascript" th:src="@{/js/validate-input.js}"></script>
+    <script type="text/javascript" th:src="@{/js/validate-input-on-click.js}"></script>
+    <link href="/css/styles.css" rel="stylesheet"/>
+    <link href="/css/articles-badges-images.css" rel="stylesheet"/>
+    <link href="/css/contact-details-icons.css" rel="stylesheet"/>
+    <link href="/css/line-awesome.css" rel="stylesheet"/>
 
     <style>
         .highcharts-figure,
@@ -129,14 +139,26 @@
     <header class="p-3 mb-3 border-bottom lead">
         <div class="container">
             <div class="d-flex flex-wrap justify-content-between align-items-center">
-                <h2 class="title lead">
-                    Open sensor data
-                </h2>
+                <div class="d-flex flex-wrap align-items-center">
+                    <span class="bs-icon-md bs-icon-rounded bs-icon-primary shadow d-flex justify-content-center align-items-center pulse animated me-2 bs-icon"><img
+                            class="rounded shadow" src="https://i.ibb.co/p4ctFw5/download-3.jpg" alt="download-3"
+                            data-is360="0"
+                            style="width:50px;height:50px;display:block;">
 
-                <ul class="nav col-md-4 justify-content-end">
+                    </span>
+                    <span>Open Sensor Data</span>
+                </div>
+
+
+                <ul class="nav col-md-5 justify-content-end">
                     <li class="nav-item"><a href="/dashboard" class="nav-link px-2 text-muted">Dashboard</a></li>
+                    <li class="nav-item"><a href="/dashboard/sensors/1" class="nav-link px-2 text-muted">Sensors</a>
+                    </li>
+                    <li class="nav-item"><a href="/dashboard/user-sensors/1" class="nav-link px-2 text-muted">My
+                        Data</a></li>
                     <li class="nav-item"><a href="/dashboard/about" class="nav-link px-2 text-muted">About</a></li>
-                    <li class="nav-item"><a href="/dashboard/tutorial" class="nav-link px-2 text-muted">Tutorial</a></li>
+                    <li class="nav-item"><a href="/dashboard/tutorial" class="nav-link px-2 text-muted">Tutorial</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -158,28 +180,26 @@
 
     <div th:if="${create_key == true}" class="alert alert-info" role="alert">
         Your key is:
-        <div class="alert alert-light" role="alert" th:text="${keyBody.getKey().toString()}"></div>
+        <div class="alert alert-light" role="alert" th:text="${keyBody.getKey()}"></div>
     </div>
-
-    <form method="get" th:action="@{/dashboard}">
-        <button th:if="${id != null}" type="submit" class="btn btn-primary mb-4">
-            Go back
-        </button>
-    </form>
 
     <div th:if="${id == null and sensors_dashboard == true}" class="alert alert-info" role="alert">
         Here you can add a new sensor (measuring device) or go to the existing open sensor data in the list or by using
         url:
         <div class="alert alert-light" role="alert">
-            /dashboard/{ your sensor id }
+            /dashboard/sensor/{ your sensor id }
         </div>
         Also we have API where you can get data in JSON and CSV format. Firstly, register key to make request:
         <div class="alert alert-light" role="alert">
-            /dashboard/{ your sensor id }/json/{ your key }
-            /dashboard/{ your sensor id }/csv/{ your key }
-            <li><a href="/dashboard/register-key" class="nav-link px-2 text-muted">>get key<</a><li>
-        </div>
+            /dashboard/sensor/{ your sensor id }/json/{ your key }
 
+        </div>
+        <div class="alert alert-light" role="alert">
+
+            /dashboard/sensor/{ your sensor id }/csv/{ your key }
+
+        </div>
+        <li><a href="/dashboard/register-key" class="nav-link px-2 text-muted">>get key<</a></li>
         you can do 30 requests in 1 minute and if you exceed your limit website will return you http status code: 204 no
         content.
     </div>
@@ -189,15 +209,7 @@
         Add sensor
     </button>
 
-    <form method="get" id="form" th:action="@{/dashboard/{id}(id = ${id})}"
-          th:object="${selectedSensor}" th:if="${id == null and sensors_dashboard == true}">
-        <select name="id" id="id" onchange="update()" th:hidden="${id != null}">
-            <option th:text="'Select sensor ->'" th:value="${null}" selected></option>
-            <option th:each="s: ${sensorList}" th:value="${s.id}" th:text="${s.name}"></option>
-        </select>
-    </form>
-
-    <form method="get" id="formc" th:action="@{/dashboard/{id}/chart/(id = ${id})}">
+    <form method="get" id="formc" th:action="@{/dashboard/sensor/{id}/chart/(id = ${id})}">
         <button th:if="${id != null}" type="submit" class="btn btn-light mb-4 float-right">
             Go to chart>
         </button>
@@ -261,7 +273,7 @@
                     complete: function () {
                         $('#loader').css("visibility", "hidden");
                     },
-                    error: function(e) {
+                    error: function (e) {
                         console.log(e.message);
                     }
                 });
@@ -370,8 +382,9 @@
     </div>
 
     <div th:if="${sensor} != null and ${chart} == false">
-        <h5 class="lead" th:text="${sensor.name}"></h5>
-        <h6 class="lead" th:text="${sensor.sensorInfo}"></h6>
+        <h6 class="lead" th:text="'Sensor: ' + ${sensor.sensorTypes}"></h6>
+        <h6 class="lead" th:text="'Placement: ' + ${sensor.placements}"></h6>
+        <h6 class="lead" th:text="'Location: ' + ${sensor.country}"></h6>
 
         <div class="row gx-5">
             <div class="col data-area">
@@ -391,22 +404,240 @@
         </div>
     </div>
 
-    <div class="modal fade" id="createSensor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-         th:if="${chart == false}">
+    <section th:if="${sensorsData == true}" style="padding-bottom: 54px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-xl-6 text-center mx-auto" style="margin-bottom: 4px;padding-top: 40px;">
+                    <h2>Public sensors</h2>
+                    <p class="w-lg-50"></p>
+                </div>
+            </div>
+            <form method="get" id="formc2" th:action="@{/dashboard/user-sensors/1}">
+                <button type="submit" class="btn btn-info mb-4">
+                    My Sensors
+                </button>
+            </form>
+            <div class="flow">
+                <div style="padding-bottom: 0px;margin-bottom: 14px;"
+                     th:each="sensor : ${sensors}">
+                    <div class="card sensor-body">
+                        <div class="card-body text-start text-bg-light">
+                            <h6 class="text-muted card-subtitle mb-2" th:text="${'Sensor: '+sensor.sensorTypes}"></h6>
+                            <h6 class="text-muted card-subtitle mb-2"
+                                th:text="${'Placement: ' +sensor.placements}"></h6>
+                            <h6 class="text-muted card-subtitle mb-2"
+                                th:text="${'Location: '+sensor.country.name}"></h6>
+                            <p class="card-text"></p>
+                            <form method="get" id="formcd" th:action="@{/dashboard/sensor/{id}(id = ${sensor.id})}">
+                                <button type="submit"
+                                        class="btn btn-info btn-sm float-right text-end d-xxl-flex justify-content-xxl-end align-items-xxl-center card-link">
+                                    Show Data
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nav class="d-xxl-flex justify-content-xxl-center align-items-xxl-center">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Previous" th:with="currentPage=${currentPage - pagCount}"
+                           th:href="@{/dashboard/sensors/{currentPage}(currentPage = ${currentPage})}"
+                           th:if="${currentPage > 1}">
+                    <span
+                            aria-hidden="true">«</span></a></li>
+                    <li th:each="key: ${sensorsKeys}" class="page-item">
+                        <a class="page-link"
+                           th:href="@{/dashboard/sensors/{currentPage}(currentPage = ${key.intValue()})}"
+                           th:text="${key.intValue()}"></a></li>
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Next" th:with="currentPage=${currentPage + pagCount}"
+                           th:href="@{/dashboard/sensors/{currentPage}(currentPage = ${currentPage})}"
+                           th:if="${currentPage <= pageCount}">
+                            <span aria-hidden="true">»</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+
+    <section th:if="${userSensorsData == true}" style="padding-bottom: 54px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-xl-6 text-center mx-auto" style="margin-bottom: 4px;padding-top: 40px;">
+                    <h2>My Sensors</h2>
+                    <p class="w-lg-50"></p>
+                </div>
+            </div>
+            <form method="get" id="formc3" th:action="@{/dashboard/sensors/1}">
+                <button type="submit" class="btn btn-info mb-4">
+                    Public Sensor Data
+                </button>
+            </form>
+            <div class="flow">
+                <div style="padding-bottom: 0px;margin-bottom: 14px;"
+                     th:each="sensor : ${sensors}">
+                    <div class="card sensor-body">
+                        <div class="card-body text-start text-bg-light">
+                            <h6 class="text-muted card-subtitle mb-2" th:text="${'Sensor: '+sensor.sensorTypes}"></h6>
+                            <h6 class="text-muted card-subtitle mb-2" th:text="${'Placement: '+sensor.placements}"></h6>
+                            <h6 class="text-muted card-subtitle mb-2"
+                                th:text="${'Location: '+sensor.country.name}"></h6>
+                            <p class="card-text"></p>
+                            <form method="get" id="formcd2" th:action="@{/dashboard/sensor/{id}(id = ${sensor.id})}">
+                                <button type="submit"
+                                        class="btn btn-info btn-sm float-right text-end d-xxl-flex justify-content-xxl-end align-items-xxl-center card-link">
+                                    Show Data
+                                </button>
+                            </form>
+                            <p class="card-text"></p>
+                            <form method="get" id="formdd2">
+                                <button type="button" data-bs-toggle="modal" th:data-bs-target="'#updateSensor'+ ${sensor.id}"
+                                        class="btn btn-primary btn-sm float-right text-end d-xxl-flex justify-content-xxl-end align-items-xxl-center card-link">
+                                    Update
+                                </button>
+                            </form>
+                            <div class="modal fade" th:id="'updateSensor'+ ${sensor.id}" tabindex="-1"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form th:if="${userSensorsData!=null}"
+                                              th:action="@{/dashboard/sensor/{id}(id=${sensor.id})}" th:method="post"
+                                              th:object="${sensorRequest}">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" th:id="'modalTitle'+ ${sensor.id}">Update
+                                                    Sensor</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <select th:field="*{country}" th:name="'select'+ ${sensor.id}"
+                                                            th:id="'select'+ ${sensor.id}" class="form-control mb-4"
+                                                            th:hidden="${id != null}">
+                                                        <option th:text="'Select country ->'" th:value="${null}"
+                                                                selected></option>
+                                                        <option th:each="country: ${countries}" th:value="${country.id}"
+                                                                th:text="${country.name}"></option>
+                                                    </select>
+
+                                                    <label for="sensors" class="form-label">What sensor do you have that
+                                                        you will use?</label>
+                                                    <select class="js-example-basic-multiple mb-2"
+                                                            th:name="'sens2'+ ${sensor.id}"
+                                                            th:id="'sens2'+ ${sensor.id}" th:field="*{sensorTypes}"
+                                                            multiple="multiple"
+                                                            data-placeholder="Select a sensor type" tabindex="-1"
+                                                            aria-hidden="true">
+                                                        <option th:each="sensorType: ${sensorTypesList}"
+                                                                th:value="${sensorType.id}"
+                                                                th:text="${sensorType.name}"></option>
+                                                    </select>
+
+                                                    <label for="placements" class="form-label">How is your sensor
+                                                        placed?</label>
+                                                    <select class="js-example-basic-multiple mb-2"
+                                                            th:name="'placement'+ ${sensor.id}"
+                                                            name="placements2" th:id="'placement'+ ${sensor.id}"
+                                                            th:field="*{placements}"
+                                                            multiple="multiple"
+                                                            data-placeholder="Select a placement" tabindex="-1"
+                                                            aria-hidden="true">
+                                                        <option th:each="placement: ${placementsList}"
+                                                                th:value="${placement.id}"
+                                                                th:text="${placement.name}"></option>
+                                                    </select>
+                                                    <div class="form-check">
+                                                        <label for="isPrivate" class="form-check-label">is
+                                                            private?</label>
+                                                        <input th:field="*{personal}" th:name="'private'+ ${sensor.id}"
+                                                               th:id="'private'+ ${sensor.id}"
+                                                               class="form-check-input mb-4" type="checkbox"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                    Close
+                                                </button>
+                                                <button type="submit" class="btn btn-primary">Save</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nav class="d-xxl-flex justify-content-xxl-center align-items-xxl-center">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Previous" th:with="currentPage=${currentPage - pagCount}"
+                           th:href="@{/dashboard/user-sensors/{currentPage}(currentPage = ${currentPage})}"
+                           th:if="${currentPage > 1}">
+                            <span aria-hidden="true">«</span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:each="key: ${sensorsKeys}">
+                        <a class="page-link"
+                           th:href="@{/dashboard/user-sensors/{currentPage}(currentPage = ${key.intValue()})}"
+                           th:text="${key.intValue()}"></a></li>
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Next" th:with="currentPage=${currentPage + pagCount}"
+                           th:href="@{/dashboard/user-sensors/{currentPage}(currentPage = ${currentPage})}"
+                           th:if="${currentPage <= pageCount}">
+                            <span aria-hidden="true">»</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+
+    <div class="modal fade" id="createSensor" tabindex="-1"
+         aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form th:action="@{/dashboard}" method="post" th:object="${sensorRequest}">
+                <form th:if="${sensors_dashboard == true}" th:action="@{/dashboard}" th:method="post"
+                      th:object="${sensorRequest}">
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalTitle">Add Sensor</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <input th:field="*{name}" name="name" id="name" class="form-control mb-4"
-                                   placeholder='Sensor name'/>
-                            <input th:field="*{sensorInfo}" name="sensorInfo" id="sensorInfo"
-                                   class="form-control mb-4"
-                                   placeholder='Sensor description'/>
+                            <select th:field="*{country}" name="select2" id="select2" class="form-control mb-4"
+                                    th:hidden="${id != null}">
+                                <option th:text="'Select country ->'" th:value="${null}" selected></option>
+                                <option th:each="country: ${countries}" th:value="${country.id}"
+                                        th:text="${country.name}"></option>
+                            </select>
+
+                            <label for="sensors" class="form-label">What sensor do you have that you will use?</label>
+                            <select class="js-example-basic-multiple mb-2"
+                                    name="sensors" id="sensors" th:field="*{sensorTypes}"
+                                    multiple="multiple"
+                                    data-placeholder="Select a sensor type" tabindex="-1"
+                                    aria-hidden="true">
+                                <option th:each="sensorType: ${sensorTypesList}"
+                                        th:value="${sensorType.id}" th:text="${sensorType.name}"></option>
+                            </select>
+
+                            <label for="placements" class="form-label">How is your sensor placed?</label>
+                            <select class="js-example-basic-multiple mb-2"
+                                    name="placements" id="placements" th:field="*{placements}"
+                                    multiple="multiple"
+                                    data-placeholder="Select a placement" tabindex="-1"
+                                    aria-hidden="true">
+                                <option th:each="placement: ${placementsList}"
+                                        th:value="${placement.id}" th:text="${placement.name}"></option>
+                            </select>
+                            <div class="form-check">
+                                <label for="isPrivate" class="form-check-label">is private?</label>
+                                <input th:field="*{personal}" name="isPrivate" id="isPrivate"
+                                       class="form-check-input mb-4" type="checkbox"/>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -421,10 +652,14 @@
     <footer id="footer" class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
         <ul class="nav justify-content-end">
             <li class="nav-item"><a href="/dashboard" class="nav-link px-2 text-muted">Dashboard</a></li>
+            <li class="nav-item"><a href="/dashboard/sensors/1" class="nav-link px-2 text-muted">Sensors</a></li>
+            <li class="nav-item"><a href="/dashboard/user-sensors/1" class="nav-link px-2 text-muted">My Data</a></li>
             <li class="nav-item"><a href="/dashboard/about" class="nav-link text-muted">About</a></li>
             <li class="nav-item"><a href="/dashboard/tutorial" class="nav-link text-muted">Tutorial</a></li>
         </ul>
-        <p class="text-muted">Copyright © 2023 yellow-valley.online - All Rights Reserved.</p>
+        <p class="text-muted">Copyright © 2024 open-sensor-data.systems - All Rights Reserved.</p>
+        <a class="text-muted" href="/main/terms">Terms of Service</a>
+        <a class="text-muted" href="/main/privacy">Privacy Policy</a>
     </footer>
 </div>
 </body>

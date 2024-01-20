@@ -2,6 +2,7 @@ package com.projects.microsensors.service.sensor;
 
 import com.projects.microsensors.model.Key;
 import com.projects.microsensors.model.KeyRequest;
+import com.projects.microsensors.model.User;
 import com.projects.microsensors.repository.KeyRepository;
 import com.projects.microsensors.repository.KeyRequestRepository;
 import lombok.AllArgsConstructor;
@@ -24,11 +25,12 @@ public class KeyRequestService {
 
     private final KeyRequestRepository keyRequestRepository;
 
-    public Key registerKey(String ip) {
+    public Key registerKey(String ip, User user) {
         var key = Key.builder()
                 .id(UUID.randomUUID())
                 .creationDate(Timestamp.from(Instant.now()))
                 .key(UUID.randomUUID())
+                .userId(user.getId())
                 .ip(ip).build();
         keyRepository.save(key);
         return key;
@@ -36,6 +38,10 @@ public class KeyRequestService {
 
     public Key findKey(String ip) {
         return keyRepository.findByIp(ip);
+    }
+
+    public Key findKey(UUID key) {
+        return keyRepository.findByKey(key);
     }
 
     public boolean isKeyUsedAllRequests(UUID key) {

@@ -1,0 +1,18 @@
+.fit-cover {
+  object-fit: cover;
+}
+
+.section {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-repeat: no-repeat, repeat;
+  background-image: url("https://i.ibb.co/z7Jsvkn/just-minimalistic-beautiful-blue-lines-in-corners-upscaled.jpg");
+}
+
+.first-row {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-repeat: no-repeat, repeat;
+  background-image: url("https://i.ibb.co/6HFvR3P/just-minimalistic-beautiful-lines-and-circles-on-w-upscaled.jpg");
+}
+
