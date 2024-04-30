@@ -20,3 +20,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		hoverAnimationEl.addEventListener('mouseleave', function(e){ e.target.classList.remove('animated', e.target.dataset.bssHoverAnimate) });
 	});
 }, false);
+
+function scrollDown() {
+	let sensorMessages = document.getElementById('sensorMessages');
+	sensorMessages.scrollTop = sensorMessages.scrollHeight;
+	let sensorData = document.getElementById('sensorData');
+	sensorData.scrollTop = sensorData.scrollHeight;
+}

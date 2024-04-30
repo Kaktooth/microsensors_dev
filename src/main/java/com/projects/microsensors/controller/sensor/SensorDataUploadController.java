@@ -1,16 +1,13 @@
 package com.projects.microsensors.controller.sensor;
 
-import com.projects.microsensors.exception.NotFoundException;
 import com.projects.microsensors.model.SensorDataRequest;
 import com.projects.microsensors.service.sensor.KeyRequestService;
 import com.projects.microsensors.service.sensor.SensorDataService;
 import com.projects.microsensors.service.sensor.SensorService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -27,23 +24,33 @@ public class SensorDataUploadController {
         return "Upload data...";
     }
 
-    @PostMapping("/{key}")
-    public void saveSensorData(@PathVariable("key") UUID key, @RequestBody SensorDataRequest sensorDataRequest) {
+    @PostMapping
+    public ResponseEntity<String> saveSensorData(@RequestBody SensorDataRequest sensorDataRequest) {
+        var dataSize = sensorDataRequest.data().length;
+        if (dataSize > 96) {
+            log.info("cant process, data size {}", dataSize);
+            return ResponseEntity.unprocessableEntity().build();
+        }
+
         try {
+            var key = sensorDataRequest.key();
             if (keyRequestService.isKeyUsedAllRequests(key)) {
                 log.info("Key used all requests. Wait 1 minute to restore request count.");
+                return ResponseEntity.noContent().build();
             } else {
                 var requestKey = keyRequestService.findKey(key);
                 var isUserSensor = sensorService.isUserSensor(sensorDataRequest.sensorId(), requestKey.getId());
                 if (isUserSensor) {
                     sensorDataService.saveSensorData(sensorDataRequest);
-                    log.info("new sensor data {}", sensorDataRequest);
+                    log.info("new sensor data {} size {}", sensorDataRequest, dataSize);
+                    return ResponseEntity.ok().build();
                 } else {
-                    throw new NotFoundException("sensor not found");
+                    return ResponseEntity.notFound().build();
                 }
             }
         } catch (Exception exception) {
             log.info("exception was encountered {}", exception.getMessage());
+            return ResponseEntity.internalServerError().build();
         }
     }
 }

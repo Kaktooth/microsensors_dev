@@ -11,10 +11,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import javax.sql.DataSource;
 
@@ -37,8 +35,9 @@ public class SecurityConfiguration {
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/", ExtendedPath.STATIC, Path.FAVICON, ExtendedPath.MAIN_PAGE, ExtendedPath.JS,
-                        ExtendedPath.CSS, ExtendedPath.SIGN_UP_PAGE, ExtendedPath.API,
-                        ExtendedPath.LOG_IN_PAGE)
+                        ExtendedPath.CSS, ExtendedPath.SIGN_UP_PAGE, ExtendedPath.API, ExtendedPath.ABOUT_PAGE,
+                        ExtendedPath.TUTORIAL_PAGE, ExtendedPath.LOG_IN_PAGE, ExtendedPath.TERMS_OF_SERVICE,
+                        ExtendedPath.PRIVACY_POLICY)
                 .permitAll()
                 .anyRequest()
                 .authenticated()

@@ -10,4 +10,5 @@ public interface KeyRepository extends CommonRepository<Key> {
     Key findByIp(String ip);
 
     Key findByKey(UUID key);
+    Key findByUserId(UUID userId);
 }

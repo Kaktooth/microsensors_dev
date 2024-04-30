@@ -1,9 +1,15 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" data-bs-theme="light" lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns="http://www.w3.org/1999/xhtml" data-bs-theme="light" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7103782613206940"
+            crossorigin="anonymous"></script>
+    <meta name="google-adsense-account" content="ca-pub-7103782613206940">
+    <meta charset="utf-8">
     <title>Sensors Dashboard</title>
+    <meta name="description" content="Do you need to visualise data from your
+     sensor? Explore our website to effortlessly create and monitor your data for FREE. Alternatively, leverage our
+     versatile API to access data from public community sensors crafted by other users. © 2024 open-sensor-data.systems">
+    <link rel="icon" href="https://i.ibb.co/p4ctFw5/download-3.jpg">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -11,130 +17,35 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
-          rel="stylesheet"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/highcharts-more.js"></script>
-    <script src="https://code.highcharts.com/modules/data.js"></script>
-    <script src="https://code.highcharts.com/modules/series-label.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/export-data.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-dsv@3.0.1/dist/d3-dsv.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script type="text/javascript" th:src="@{/js/genre-selector.js}"></script>
     <script type="text/javascript" th:src="@{/js/validate-input.js}"></script>
     <script type="text/javascript" th:src="@{/js/validate-input-on-click.js}"></script>
+    <script type="text/javascript" th:src="@{/js/interval-module.js}"></script>
+    <script type="module" th:src="@{/js/create-chart.js}"></script>
     <link href="/css/styles.css" rel="stylesheet"/>
     <link href="/css/articles-badges-images.css" rel="stylesheet"/>
     <link href="/css/contact-details-icons.css" rel="stylesheet"/>
     <link href="/css/line-awesome.css" rel="stylesheet"/>
-
-    <style>
-        .highcharts-figure,
-        .highcharts-data-table table {
-            min-width: 360px;
-            max-width: 800px;
-            margin: 1em auto;
-        }
-
-        .highcharts-data-table table {
-            font-family: Verdana, sans-serif;
-            border-collapse: collapse;
-            border: 1px solid #ebebeb;
-            margin: 10px auto;
-            text-align: center;
-            width: 100%;
-            max-width: 500px;
-        }
-
-        .highcharts-data-table caption {
-            padding: 1em 0;
-            font-size: 1.2em;
-            color: #555;
-        }
-
-        .highcharts-data-table th {
-            font-weight: 600;
-            padding: 0.5em;
-        }
-
-        .highcharts-data-table td,
-        .highcharts-data-table th,
-        .highcharts-data-table caption {
-            padding: 0.5em;
-        }
-
-        .highcharts-data-table thead tr,
-        .highcharts-data-table tr:nth-child(even) {
-            background: #f8f8f8;
-        }
-
-        .highcharts-data-table tr:hover {
-            background: #f1f7ff;
-        }
-
-        .data-area {
-            height: 30%;
-        }
-
-        #footer {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 60px;
-            line-height: 60px;
-        }
-
-        @keyframes light {
-            0% {
-                opacity: 1;
-            }
-
-            20% {
-                opacity: 0.4;
-                color: chartreuse;
-            }
-
-            100% {
-                opacity: 1;
-                color: black;
-            }
-        }
-
-        li:hover {
-            animation: light 0.6s ease-in-out;
-        }
-    </style>
-
-    <script>
-        function update() {
-            const form = document.getElementById('form');
-            form.submit();
-        }
-
-        function scrollDown() {
-            let sensorMessages = document.getElementById('sensorMessages');
-            sensorMessages.scrollTop = sensorMessages.scrollHeight;
-            let sensorData = document.getElementById('sensorData');
-            sensorData.scrollTop = sensorData.scrollHeight;
-        }
-
-        $(document).ready(function () {
-            setInterval(function () {
-                const queryString = window.location.search;
-                const urlParams = new URLSearchParams(queryString);
-                console.log(queryString)
-
-                if (urlParams.has('id')) {
-                    update();
-                }
-            }, 3000);
-        })
-    </script>
 </head>
-<body onload="scrollDown()">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E6LJ9Z829W"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-E6LJ9Z829W');
+</script>
+<body>
 <div class="container px-4">
     <header class="p-3 mb-3 border-bottom lead">
         <div class="container">
@@ -143,12 +54,9 @@
                     <span class="bs-icon-md bs-icon-rounded bs-icon-primary shadow d-flex justify-content-center align-items-center pulse animated me-2 bs-icon"><img
                             class="rounded shadow" src="https://i.ibb.co/p4ctFw5/download-3.jpg" alt="download-3"
                             data-is360="0"
-                            style="width:50px;height:50px;display:block;">
-
-                    </span>
+                            style="width:50px;height:50px;display:block;"></span>
                     <span>Open Sensor Data</span>
                 </div>
-
 
                 <ul class="nav col-md-5 justify-content-end">
                     <li class="nav-item"><a href="/dashboard" class="nav-link px-2 text-muted">Dashboard</a></li>
@@ -167,15 +75,100 @@
     <div th:if="${about == true}" class="alert alert-light" role="alert">
         <h2 class="text-center">About</h2>
         <p>
-            Open sensor data website where you can upload or watch and get data from uploaded sensors.
+            Open Sensor Data, your go-to platform for seamlessly generating and overseeing data from your sensors, all
+            at no cost. Experience the ease of crafting and monitoring your sensor data effortlessly.
+            Whether you're setting up sensors for your community or tapping into the collective data from
+            public sensors, our API makes the process a breeze. Join us in unlocking the full potential of
+            sensor technology with Open Sensor Data.
+
+            To contact us, please send an email to opensensordata@gmail.com.
         </p>
     </div>
 
     <div th:if="${tutorial == true}" class="alert alert-light" role="alert">
         <h2 class="text-center">Tutorial</h2>
-        <p>
-            This is Tutorial
-        </p>
+        <div class="alert alert-info" role="alert">
+
+            In our beginner's tutorial, we will use the LOLIN(WEMOS) D1 Pro Mini MCU (microcontroller) and the DHT22
+            sensor.
+
+            First, we will connect our MCU to the DHT22 sensor. To do this, we need to connect the DHT22 data pin to the
+            MCU's GPIO (General-purpose input/output) D7, also called pin 13. Next, we connect GND to GND and the
+            DHT22's
+            VCC pin to the MCU's 3v3 pin.
+
+            Connections:
+            <table>
+                <thead>
+                <td>MCU pins</td>
+                <td>DHT22 pins</td>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>D7</th>
+                    <th>DATA</th>
+                </tr>
+                <tr>
+                    <th>GND</th>
+                    <th>GND</th>
+                </tr>
+                <tr>
+                    <th>3v3</th>
+                    <th>VCC</th>
+                </tr>
+                </tbody>
+            </table>
+
+            After that, you can power your MCU in any way you want: from the battery or USB. At the moment, we are only
+            powering our MCU by USB.
+
+            We used the Arduino IDE to program the microcontroller.
+            Go to File > Preferences... and in the "Additional boards manager URLs" field, add the URL to import the
+            ESP8266 package:
+            <div class="alert alert-light" role="alert">
+                http://arduino.esp8266.com/stable/package_esp8266com_index.json
+            </div>
+
+            Next, you need to download the esp8266 git repository and navigate to the certs-from-mozilla.py script to
+            get the trusted CAs.
+            <div class="alert alert-light" role="alert">
+                https://github.com/esp8266/Arduino
+            </div>
+
+            run script certs-from-mozilla.py
+            <div class="alert alert-light" role="alert">
+                cd "{ your-path }\Arduino-master\libraries\ESP8266WiFi\examples\BearSSL_CertStore"
+                python certs-from-mozilla.py
+            </div>
+            Get the folder with the generated data and add it to your Arduino sketch folder.
+
+            Next we need to generate your certificate with tool cert.py:
+            <div class="alert alert-light" role="alert">
+                cd "{ your-path }\Arduino-master\tools"
+                python cert.py -s open-sensor-data.systems
+            </div>
+            Import generated certs.h to sketch folder (Sketch > Add File...).
+
+            certs.h example:
+            <div class="alert alert-light" role="alert" style="white-space: pre-line" th:text="${cert}"></div>
+
+            Now copy and paste our code to get data and upload to our service. Dont forget to change Wifi credentials,
+            sensor id and your key.
+
+            Firstly, our device connects to wifi and sends a message to our service that the device is connected, and
+            also initialises the
+            the LED pin. In the loop method, if our device has been connected to Wi-Fi, we turn on the LED and read the
+            humidity and temperature
+            from the sensor. In the loop method, we read the humidity and temperature from the sensor and send this data
+            to the service.
+            <div class="alert alert-light" role="alert" style="white-space: pre-line" th:text="${tutorialCode}"></div>
+
+            Upload the Arduino code to the MCU and check for any exceptions in the Serial Monitor (Tools > Serial
+            Monitor and select the 115200 baud option).
+            If your data is displaying in our website you completed this tutorial. Well Done!
+
+            If you have any questions or suggestions, please contact opensensordata@gmail.com.
+        </div>
     </div>
 
     <div th:if="${create_key == true}" class="alert alert-info" role="alert">
@@ -184,24 +177,31 @@
     </div>
 
     <div th:if="${id == null and sensors_dashboard == true}" class="alert alert-info" role="alert">
-        Here you can add a new sensor (measuring device) or go to the existing open sensor data in the list or by using
-        url:
+        Here you can add a new sensor (measuring device) or go to the existing open sensor data in the list or by
+        using url:
         <div class="alert alert-light" role="alert">
             /dashboard/sensor/{ your sensor id }
         </div>
-        Also we have API where you can get data in JSON and CSV format. Firstly, register key to make request:
+        Also we have API where you can get data in JSON and CSV format. Firstly, get key to make request:
+        <li><a href="/dashboard/register-key" class="nav-link px-2 text-muted">Get key</a></li>
+
+        And use key for this endpoints to get data:
         <div class="alert alert-light" role="alert">
             /dashboard/sensor/{ your sensor id }/json/{ your key }
-
         </div>
         <div class="alert alert-light" role="alert">
-
             /dashboard/sensor/{ your sensor id }/csv/{ your key }
-
         </div>
-        <li><a href="/dashboard/register-key" class="nav-link px-2 text-muted">>get key<</a></li>
-        you can do 30 requests in 1 minute and if you exceed your limit website will return you http status code: 204 no
-        content.
+
+        To upload data or messages from your sensors use this endpoints:
+        <div class="alert alert-light" role="alert">
+            /api/v1/sensor-data
+        </div>
+        <div class="alert alert-light" role="alert">
+            /api/v1/sensor-messages
+        </div>
+        you can do 30 requests in 1 minute and if you exceed your limit website will return you http status code:
+        204 no content.
     </div>
 
     <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal"
@@ -209,176 +209,40 @@
         Add sensor
     </button>
 
-    <form method="get" id="formc" th:action="@{/dashboard/sensor/{id}/chart/(id = ${id})}">
-        <button th:if="${id != null}" type="submit" class="btn btn-light mb-4 float-right">
-            Go to chart>
+    <form method="get" id="backtosensor" th:action="@{/dashboard/sensor/{id}(id = ${id})}">
+        <button th:if="${chart == true}" type="submit" class="btn btn-info mb-4">
+            Go back
+        </button>
+    </form>
+
+    <form method="get" id="formc" th:action="@{/dashboard/sensor/{id}/chart(id = ${id})}">
+        <button th:if="${chart == false && sensor != null}" type="submit" class="btn btn-info mb-4 float-right">
+            Visualized data
         </button>
     </form>
 
     <div th:if="${sensor} != null and ${chart} == true">
-        <h5 class="lead" th:text="${sensor.name}"></h5>
-        <h6 class="lead" th:text="${sensor.sensorInfo}"></h6>
+        <h6 class="text-muted card-subtitle mb-2"
+            th:text="${'Sensor: '+ sensor.sensorTypes}"></h6>
+        <h6 class="text-muted card-subtitle mb-2"
+            th:text="${'Placement: ' + sensor.placements}"></h6>
+        <h6 class="text-muted card-subtitle mb-2"
+            th:text="${'Location: '+ sensor.country.name}"></h6>
 
-        <figure class="highcharts-figure">
-            <div id="container"></div>
-            <script>
-                Highcharts.addEvent(Highcharts.Point, 'click', function () {
-                    if (this.series.options.className.indexOf('popup-on-click') !== -1) {
-                        const chart = this.series.chart;
-                        const date = Highcharts.dateFormat('%A, %b %e, %Y', this.x);
-                        const text = `<b>${date}</b><br/>${this.y} ${this.series.name}`;
-
-                        const anchorX = this.plotX + this.series.xAxis.pos;
-                        const anchorY = this.plotY + this.series.yAxis.pos;
-                        const align = anchorX < chart.chartWidth - 200 ? 'left' : 'right';
-                        const x = align === 'left' ? anchorX + 10 : anchorX - 10;
-                        const y = anchorY - 30;
-                        if (!chart.sticky) {
-                            chart.sticky = chart.renderer
-                                .label(text, x, y, 'callout', anchorX, anchorY)
-                                .attr({
-                                    align,
-                                    fill: 'rgba(0, 0, 0, 0.75)',
-                                    padding: 10,
-                                    zIndex: 7 // Above series, below tooltip
-                                })
-                                .css({
-                                    color: 'white'
-                                })
-                                .on('click', function () {
-                                    chart.sticky = chart.sticky.destroy();
-                                })
-                                .add();
-                        } else {
-                            chart.sticky
-                                .attr({align, text})
-                                .animate({anchorX, anchorY, x, y}, {duration: 250});
-                        }
-                    }
-                });
-
-                const currentUrl = window.location.href;
-                var data = $.ajax({
-                    url: '/dashboard/request-key',
-                    type: "GET",
-                    dataType: "json",
-                    beforeSend: function () {
-                        $('#loader').css("visibility", "visible");
-                    },
-
-                    success: function (data) {
-                        console.log(data);
-                        return data;
-                    },
-                    complete: function () {
-                        $('#loader').css("visibility", "hidden");
-                    },
-                    error: function (e) {
-                        console.log(e.message);
-                    }
-                });
-
-                var dataPath = "";
-                data.done(function () {
-                    dataPath = currentUrl.replace("/chart/", "/csv/".concat(data.responseJSON));
-
-                    console.log(dataPath)
-                }).fail(function () {
-                    console.log('fail to get key');
-                });
-
-                Highcharts.chart('container', {
-
-                    chart: {
-                        scrollablePlotArea: {
-                            minWidth: 700
-                        }
-                    },
-
-                    data: {
-                        csvURL: dataPath,
-                        beforeParse: function (csv) {
-                            return csv.replace(/\n\n/g, '\n');
-                        }
-                    },
-
-                    title: {
-                        text: 'Real-time data'
-                    },
-
-                    xAxis: {
-                        tickInterval: 7 * 24 * 3600 * 1000, // one week
-                        tickWidth: 0,
-                        gridLineWidth: 1,
-                        labels: {
-                            align: 'left',
-                            x: 3,
-                            y: -3
-                        }
-                    },
-
-                    yAxis: [{ // left y axis
-                        title: {
-                            text: null
-                        },
-                        labels: {
-                            align: 'left',
-                            x: 3,
-                            y: 16,
-                            format: '{value:.,0f}'
-                        },
-                        showFirstLabel: false
-                    }, { // right y axis
-                        linkedTo: 0,
-                        gridLineWidth: 0,
-                        opposite: true,
-                        title: {
-                            text: null
-                        },
-                        labels: {
-                            align: 'right',
-                            x: -3,
-                            y: 16,
-                            format: '{value:.,0f}'
-                        },
-                        showFirstLabel: false
-                    }],
-
-                    legend: {
-                        align: 'left',
-                        verticalAlign: 'top',
-                        borderWidth: 0
-                    },
-
-                    tooltip: {
-                        shared: true,
-                        crosshairs: true
-                    },
-
-                    plotOptions: {
-                        series: {
-                            cursor: 'pointer',
-                            className: 'popup-on-click',
-                            marker: {
-                                lineWidth: 1
-                            }
-                        }
-                    },
-
-                    series: [{
-                        name: 'Data',
-                        lineWidth: 4,
-                        marker: {
-                            radius: 4
-                        }
-                    }]
-                });
+        <div>
+            <script type="text/javascript" th:src="@{/js/create-chart.js}"></script>
+            <script type="text/javascript">
+                window.onload = createChart;
             </script>
-            <p class="highcharts-description">
+            <canvas id="chart"></canvas>
+            <p class="mb-2">
                 Chart showing recent data loaded dynamically. The individual data points can
                 be clicked to display more information.
             </p>
-        </figure>
+            <p class="mb-2">
+                Other types of visualisation are currently being developed!
+            </p>
+        </div>
     </div>
 
     <div th:if="${sensor} != null and ${chart} == false">
@@ -386,22 +250,27 @@
         <h6 class="lead" th:text="'Placement: ' + ${sensor.placements}"></h6>
         <h6 class="lead" th:text="'Location: ' + ${sensor.country}"></h6>
 
-        <div class="row gx-5">
+        <div class="row gx-5 mb-2">
             <div class="col data-area">
                 <div class="p-3 border bg-light">
                     <label for="sensorData" class="form-label">Sensor Data</label>
-                    <textarea class="form-control" id="sensorData" rows="15"
-                              th:text="${sensor.getSensorDataString()}"></textarea>
+                    <textarea class="form-control" id="sensorData" rows="15"></textarea>
                 </div>
             </div>
             <div class="col data-area">
                 <div class="p-3 border bg-light">
                     <label for="sensorMessages" class="form-label">Sensor Messages</label>
-                    <textarea class="form-control" id="sensorMessages" rows="15"
-                              th:text="${sensor.getSensorMessagesString()}"></textarea>
+                    <textarea class="form-control" id="sensorMessages" rows="15"></textarea>
                 </div>
             </div>
         </div>
+
+        <form th:if="${userIsCreator == true}" th:method="delete" id="removealldata"
+              th:action="@{/dashboard/sensor/{id}/data(id = ${id})}">
+            <button type="submit" class="btn btn-danger mb-2">
+                Delete All Data from Sensor
+            </button>
+        </form>
     </div>
 
     <section th:if="${sensorsData == true}" style="padding-bottom: 54px;">
@@ -417,16 +286,22 @@
                     My Sensors
                 </button>
             </form>
+            <div th:if="${sensors.isEmpty()}" class="row">
+                <div class="col-md-8 col-xl-6 text-center mx-auto" style="margin-bottom: 4px;padding-top: 40px;">
+                    <h2 class="text-muted">No sensors available yet</h2>
+                </div>
+            </div>
             <div class="flow">
                 <div style="padding-bottom: 0px;margin-bottom: 14px;"
                      th:each="sensor : ${sensors}">
                     <div class="card sensor-body">
                         <div class="card-body text-start text-bg-light">
-                            <h6 class="text-muted card-subtitle mb-2" th:text="${'Sensor: '+sensor.sensorTypes}"></h6>
                             <h6 class="text-muted card-subtitle mb-2"
-                                th:text="${'Placement: ' +sensor.placements}"></h6>
+                                th:text="${'Sensor: '+sensor.sensorTypes}"></h6>
                             <h6 class="text-muted card-subtitle mb-2"
-                                th:text="${'Location: '+sensor.country.name}"></h6>
+                                th:text="${'Placement: ' + sensor.placements}"></h6>
+                            <h6 class="text-muted card-subtitle mb-2"
+                                th:text="${'Location: ' + sensor.country.name}"></h6>
                             <p class="card-text"></p>
                             <form method="get" id="formcd" th:action="@{/dashboard/sensor/{id}(id = ${sensor.id})}">
                                 <button type="submit"
@@ -438,7 +313,7 @@
                     </div>
                 </div>
             </div>
-            <nav class="d-xxl-flex justify-content-xxl-center align-items-xxl-center">
+            <nav th:if="${pageCount > 1}" class="d-xxl-flex justify-content-xxl-center align-items-xxl-center">
                 <ul class="pagination">
                     <li class="page-item">
                         <a class="page-link" aria-label="Previous" th:with="currentPage=${currentPage - pagCount}"
@@ -474,17 +349,26 @@
                     Public Sensor Data
                 </button>
             </form>
+            <div th:if="${sensors.isEmpty()}" class="row">
+                <div class="col-md-8 col-xl-6 text-center mx-auto" style="margin-bottom: 4px;padding-top: 40px;">
+                    <h2 class="text-muted">No sensors available yet</h2>
+                </div>
+            </div>
             <div class="flow">
                 <div style="padding-bottom: 0px;margin-bottom: 14px;"
                      th:each="sensor : ${sensors}">
                     <div class="card sensor-body">
                         <div class="card-body text-start text-bg-light">
-                            <h6 class="text-muted card-subtitle mb-2" th:text="${'Sensor: '+sensor.sensorTypes}"></h6>
-                            <h6 class="text-muted card-subtitle mb-2" th:text="${'Placement: '+sensor.placements}"></h6>
                             <h6 class="text-muted card-subtitle mb-2"
-                                th:text="${'Location: '+sensor.country.name}"></h6>
+                                th:text="${'Sensor: '+sensor.sensorTypes}"></h6>
+                            <h6 class="text-muted card-subtitle mb-2"
+                                th:text="${'Placement: '+sensor.placements}"></h6>
+                            <h6 class="text-muted card-subtitle mb-2"
+                                th:text="${'Location: ' + sensor.country.name}"></h6>
                             <p class="card-text"></p>
-                            <form method="get" id="formcd2" th:action="@{/dashboard/sensor/{id}(id = ${sensor.id})}">
+
+                            <form method="get" id="formcd2"
+                                  th:action="@{/dashboard/sensor/{id}(id = ${sensor.id})}">
                                 <button type="submit"
                                         class="btn btn-info btn-sm float-right text-end d-xxl-flex justify-content-xxl-end align-items-xxl-center card-link">
                                     Show Data
@@ -492,9 +376,21 @@
                             </form>
                             <p class="card-text"></p>
                             <form method="get" id="formdd2">
-                                <button type="button" data-bs-toggle="modal" th:data-bs-target="'#updateSensor'+ ${sensor.id}"
+                                <button type="button" data-bs-toggle="modal"
+                                        th:data-bs-target="'#updateSensor'+ ${sensor.id}"
                                         class="btn btn-primary btn-sm float-right text-end d-xxl-flex justify-content-xxl-end align-items-xxl-center card-link">
                                     Update
+                                </button>
+                            </form>
+                            <form th:method="delete" id="removesensor"
+                                  th:action="@{/dashboard/sensor/{id}(id = ${sensor.id})}">
+                                <button type="submit"
+                                        class="btn btn-sm btn-danger d-flex float-left text-end d-xxl-flex justify-content-xxl-end align-items-xxl-center card-link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                         fill="currentColor"
+                                         class="bi bi-trash3" viewBox="0 0 16 16">
+                                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+                                    </svg>
                                 </button>
                             </form>
                             <div class="modal fade" th:id="'updateSensor'+ ${sensor.id}" tabindex="-1"
@@ -502,7 +398,8 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <form th:if="${userSensorsData!=null}"
-                                              th:action="@{/dashboard/sensor/{id}(id=${sensor.id})}" th:method="post"
+                                              th:action="@{/dashboard/sensor/{id}(id=${sensor.id})}"
+                                              th:method="post"
                                               th:object="${sensorRequest}">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" th:id="'modalTitle'+ ${sensor.id}">Update
@@ -515,20 +412,28 @@
                                                     <select th:field="*{country}" th:name="'select'+ ${sensor.id}"
                                                             th:id="'select'+ ${sensor.id}" class="form-control mb-4"
                                                             th:hidden="${id != null}">
-                                                        <option th:text="'Select country ->'" th:value="${null}"
+                                                        <option th:if="${sensor.country == null}"
+                                                                th:text="'Select country ->'" th:value="${null}"
                                                                 selected></option>
-                                                        <option th:each="country: ${countries}" th:value="${country.id}"
+                                                        <option th:if="${sensor.country != null}"
+                                                                th:text="${sensor.country.name}"
+                                                                th:value="${sensor.country.id}" selected></option>
+                                                        <option th:each="country: ${countries}"
+                                                                th:value="${country.id}"
                                                                 th:text="${country.name}"></option>
                                                     </select>
 
-                                                    <label for="sensors" class="form-label">What sensor do you have that
+                                                    <label for="sensors" class="form-label">What sensor do you have
+                                                        that
                                                         you will use?</label>
                                                     <select class="js-example-basic-multiple mb-2"
-                                                            th:name="'sens2'+ ${sensor.id}"
-                                                            th:id="'sens2'+ ${sensor.id}" th:field="*{sensorTypes}"
+                                                            th:name="'sensorTypes'+ ${sensor.id}"
+                                                            th:id="'sensorTypes'+ ${sensor.id}"
+                                                            th:field="*{sensorTypes}"
                                                             multiple="multiple"
                                                             data-placeholder="Select a sensor type" tabindex="-1"
-                                                            aria-hidden="true">
+                                                            aria-hidden="true"
+                                                            th:onload="'setSelectValue(' + ${sensor.sensorTypes},'sensorTypes' + ${sensor.id} + ')'">
                                                         <option th:each="sensorType: ${sensorTypesList}"
                                                                 th:value="${sensorType.id}"
                                                                 th:text="${sensorType.name}"></option>
@@ -538,11 +443,12 @@
                                                         placed?</label>
                                                     <select class="js-example-basic-multiple mb-2"
                                                             th:name="'placement'+ ${sensor.id}"
-                                                            name="placements2" th:id="'placement'+ ${sensor.id}"
+                                                            th:id="'placement'+ ${sensor.id}"
                                                             th:field="*{placements}"
                                                             multiple="multiple"
                                                             data-placeholder="Select a placement" tabindex="-1"
-                                                            aria-hidden="true">
+                                                            aria-hidden="true"
+                                                            th:onload="'setSelectValue(' + ${sensor.placements},'placement' + ${sensor.id} + ')'">
                                                         <option th:each="placement: ${placementsList}"
                                                                 th:value="${placement.id}"
                                                                 th:text="${placement.name}"></option>
@@ -550,14 +456,17 @@
                                                     <div class="form-check">
                                                         <label for="isPrivate" class="form-check-label">is
                                                             private?</label>
-                                                        <input th:field="*{personal}" th:name="'private'+ ${sensor.id}"
+                                                        <input th:field="*{personal}"
+                                                               th:name="'private' + ${sensor.id}"
                                                                th:id="'private'+ ${sensor.id}"
+                                                               th:value="${sensor.personal}"
                                                                class="form-check-input mb-4" type="checkbox"/>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">
                                                     Close
                                                 </button>
                                                 <button type="submit" class="btn btn-primary">Save</button>
@@ -570,7 +479,7 @@
                     </div>
                 </div>
             </div>
-            <nav class="d-xxl-flex justify-content-xxl-center align-items-xxl-center">
+            <nav th:if="${pageCount > 1}" class="d-xxl-flex justify-content-xxl-center align-items-xxl-center">
                 <ul class="pagination">
                     <li class="page-item">
                         <a class="page-link" aria-label="Previous" th:with="currentPage=${currentPage - pagCount}"
@@ -614,7 +523,8 @@
                                         th:text="${country.name}"></option>
                             </select>
 
-                            <label for="sensors" class="form-label">What sensor do you have that you will use?</label>
+                            <label for="sensors" class="form-label">What sensor do you have that you will
+                                use?</label>
                             <select class="js-example-basic-multiple mb-2"
                                     name="sensors" id="sensors" th:field="*{sensorTypes}"
                                     multiple="multiple"
@@ -648,19 +558,19 @@
             </div>
         </div>
     </div>
-
-    <footer id="footer" class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-        <ul class="nav justify-content-end">
-            <li class="nav-item"><a href="/dashboard" class="nav-link px-2 text-muted">Dashboard</a></li>
-            <li class="nav-item"><a href="/dashboard/sensors/1" class="nav-link px-2 text-muted">Sensors</a></li>
-            <li class="nav-item"><a href="/dashboard/user-sensors/1" class="nav-link px-2 text-muted">My Data</a></li>
-            <li class="nav-item"><a href="/dashboard/about" class="nav-link text-muted">About</a></li>
-            <li class="nav-item"><a href="/dashboard/tutorial" class="nav-link text-muted">Tutorial</a></li>
-        </ul>
-        <p class="text-muted">Copyright © 2024 open-sensor-data.systems - All Rights Reserved.</p>
-        <a class="text-muted" href="/main/terms">Terms of Service</a>
-        <a class="text-muted" href="/main/privacy">Privacy Policy</a>
-    </footer>
 </div>
+<footer id="footer" class="d-flex flex-wrap justify-content-between align-items-center border-top">
+    <ul class="nav justify-content-end">
+        <li class="nav-item"><a href="/dashboard" class="nav-link px-2 text-muted">Dashboard</a></li>
+        <li class="nav-item"><a href="/dashboard/sensors/1" class="nav-link px-2 text-muted">Sensors</a></li>
+        <li class="nav-item"><a href="/dashboard/user-sensors/1" class="nav-link px-2 text-muted">My Data</a>
+        </li>
+        <li class="nav-item"><a href="/dashboard/about" class="nav-link text-muted">About</a></li>
+        <li class="nav-item"><a href="/dashboard/tutorial" class="nav-link text-muted">Tutorial</a></li>
+    </ul>
+    <p class="text-muted">Copyright © 2024 open-sensor-data.systems - All Rights Reserved.</p>
+    <a class="text-muted" href="/main/terms">Terms of Service</a>
+    <a class="text-muted" href="/main/privacy">Privacy Policy</a>
+</footer>
 </body>
 </html>

@@ -18,10 +18,16 @@ public class AuthorizationService {
     private final SensorRepository sensorRepository;
     private final UserRepository userRepository;
 
-    public boolean authorizeUserForSensor(UUID sensorId, Authentication authentication) {
+    public boolean authorizeUserForPrivateSensor(UUID sensorId, Authentication authentication) {
+
+        var sensor = sensorRepository.findById(sensorId).get();
+        return !sensor.getPersonal() || authorizeUserForAllSensors(sensorId, authentication);
+    }
+
+    public boolean authorizeUserForAllSensors(UUID sensorId, Authentication authentication) {
 
         var sensor = sensorRepository.findById(sensorId).get();
         var user = userRepository.findUserByUsername(authentication.getName());
-        return !sensor.getPersonal() || sensor.getUserId().equals(user.getId());
+        return sensor.getUserId().equals(user.getId());
     }
 }

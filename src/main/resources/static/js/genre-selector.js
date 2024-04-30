@@ -7,7 +7,7 @@ $(document).ready(function () {
     );
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
     $("#sensors").select2({
         dropdownParent: $("#createSensor"),
         width: '100%'
@@ -17,3 +17,10 @@ $(document).ready(function() {
         width: '100%'
     });
 });
+
+function setSelectValue(collection, selectName) {
+    collection.forEach((element) => {
+        $(selectName).val(element.id);
+    })
+    $(selectName).trigger('change');
+}

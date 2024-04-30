@@ -1,5 +1,6 @@
 package com.projects.microsensors.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @Proxy(lazy = false)
 public class Sensor extends Domain {
 
+    @JsonManagedReference
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "sensors_types",
@@ -27,6 +29,7 @@ public class Sensor extends Domain {
     )
     private List<SensorType> sensorTypes;
 
+    @JsonManagedReference
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "sensors_placements",
@@ -35,6 +38,7 @@ public class Sensor extends Domain {
     )
     private List<Placement> placements;
 
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     private Country country;

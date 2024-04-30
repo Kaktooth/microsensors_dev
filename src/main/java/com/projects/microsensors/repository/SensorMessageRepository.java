@@ -10,4 +10,6 @@ import java.util.UUID;
 public interface SensorMessageRepository extends CommonRepository<SensorMessage> {
 
     List<SensorMessage> findAllBySensorId(UUID sensorId);
+
+    void deleteAllBySensorId(UUID sensorId);
 }

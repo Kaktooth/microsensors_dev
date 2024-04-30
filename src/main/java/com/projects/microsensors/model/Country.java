@@ -1,5 +1,6 @@
 package com.projects.microsensors.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @Table(name = "countries")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(callSuper = true)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Country extends Domain {
 
     private String code;

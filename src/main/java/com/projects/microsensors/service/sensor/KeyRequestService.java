@@ -44,6 +44,10 @@ public class KeyRequestService {
         return keyRepository.findByKey(key);
     }
 
+    public Key findKeyByUserId(UUID userId) {
+        return keyRepository.findByUserId(userId);
+    }
+
     public boolean isKeyUsedAllRequests(UUID key) {
 
         var time = LocalDateTime.now();

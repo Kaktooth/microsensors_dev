@@ -1,10 +1,7 @@
 package com.projects.microsensors.service.sensor;
 
 import com.projects.microsensors.model.*;
-import com.projects.microsensors.repository.SensorDataRepository;
-import com.projects.microsensors.repository.SensorMessageRepository;
-import com.projects.microsensors.repository.SensorRepository;
-import com.projects.microsensors.repository.UserRepository;
+import com.projects.microsensors.repository.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -15,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
+import static com.projects.microsensors.common.AppConstraints.Sensors.DATA_LIMIT;
+import static com.projects.microsensors.common.AppConstraints.Sensors.MESSAGES_LIMIT;
+
 @Slf4j
 @Service
 @Transactional
@@ -24,8 +24,9 @@ public class SensorService {
     private final SensorDataRepository sensorDataRepository;
     private final SensorMessageRepository sensorMessageRepository;
     private final UserRepository userRepository;
+    private final KeyRepository keyRepository;
 
-    public Sensor saveSensor(SensorRequest sensorRequest) {
+    public Sensor save(SensorRequest sensorRequest) {
         UUID id = sensorRequest.getId();
         if (id == null) {
             id = UUID.randomUUID();
@@ -46,28 +47,33 @@ public class SensorService {
         return sensorRepository.save(sensor);
     }
 
-    public List<Sensor> getAllSensors() {
+    public List<Sensor> getAll() {
         return sensorRepository.findAll();
     }
 
-    public List<Sensor> getAllPublicSensors() {
+    public List<Sensor> getPublic() {
         return sensorRepository.findAllByPersonal(false);
     }
 
-    public List<Sensor> getSensorsForCurrentUser() {
+    public List<Sensor> getForCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         var userId = userRepository.findUserByUsername(authentication.getName()).getId();
         return sensorRepository.findAllByUserId(userId);
     }
 
-    public SensorDTO getSensorDTO(UUID id) {
+    public SensorDTO getDTO(UUID id) {
         Sensor sensor = sensorRepository.getReferenceById(id);
         List<SensorData> sensorData = sensorDataRepository.findAllBySensorId(id);
         List<SensorMessage> sensorMessages = sensorMessageRepository.findAllBySensorId(id);
 
-        sensorData = sensorData.stream().sorted().skip(Math.max(0, sensorData.size() - 10)).toList();
-        sensorMessages = sensorMessages.stream().sorted().skip(Math.max(0, sensorMessages.size() - 10)).toList();
-        log.info("get dto: " + id);
+        sensorData = sensorData.stream().sorted()
+                .skip(Math.max(0, sensorData.size() - MESSAGES_LIMIT))
+                .limit(DATA_LIMIT).toList();
+
+        sensorMessages = sensorMessages.stream().sorted()
+                .skip(Math.max(0, sensorMessages.size() - MESSAGES_LIMIT))
+                .limit(MESSAGES_LIMIT).toList();
+
         return SensorDTO.builder()
                 .id(sensor.getId())
                 .country(sensor.getCountry())
@@ -81,8 +87,18 @@ public class SensorService {
                 .build();
     }
 
-    public boolean isUserSensor(UUID sensorId, UUID userId) {
+    public boolean isUserSensor(UUID sensorId, UUID keyId) {
         var sensor = sensorRepository.findById(sensorId).get();
-        return sensor.getUserId().equals(sensor.getUserId());
+        var keyUserId = keyRepository.findById(keyId).get().getUserId();
+        return sensor.getUserId().equals(keyUserId);
+    }
+
+    public void delete(UUID sensorId) {
+        sensorRepository.deleteById(sensorId);
+    }
+
+    public void deleteData(UUID sensorId) {
+        sensorDataRepository.deleteAllBySensorId(sensorId);
+        sensorMessageRepository.deleteAllBySensorId(sensorId);
     }
 }

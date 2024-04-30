@@ -26,6 +26,9 @@ import java.io.StringWriter;
 import java.util.List;
 import java.util.UUID;
 
+import static com.projects.microsensors.common.AppConstraints.FormattedCode.CERT;
+import static com.projects.microsensors.common.AppConstraints.FormattedCode.DHT22_Arduino;
+
 @Slf4j
 @Controller
 @AllArgsConstructor
@@ -45,7 +48,7 @@ public class DashboardController {
         model.addAttribute("sensors_dashboard", true);
         if (selectedSensor.getId() != null) {
             log.info("attach sensor");
-            SensorDTO sensorDTO = sensorService.getSensorDTO(selectedSensor.getId());
+            SensorDTO sensorDTO = sensorService.getDTO(selectedSensor.getId());
             model.addAttribute("sensor", sensorDTO);
         }
         model.addAttribute("chart", false);
@@ -73,28 +76,53 @@ public class DashboardController {
                                @PathVariable("id") UUID id,
                                @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
 
-        var isAuthorized = authorizationService.authorizeUserForSensor(id, authentication);
+        var isAuthorized = authorizationService.authorizeUserForPrivateSensor(id, authentication);
         if (!isAuthorized) {
             return "redirect:/dashboard";
         }
         log.info("attach sensor");
-        SensorDTO sensorDTO = sensorService.getSensorDTO(id);
+        SensorDTO sensorDTO = sensorService.getDTO(id);
         model.addAttribute("sensor", sensorDTO);
         model.addAttribute("chart", false);
         model.addAttribute("selectedSensor", new SensorDTO());
+        model.addAttribute("userIsCreator", authorizationService.authorizeUserForAllSensors(id, authentication));
         log.info("loading dashboard");
 
-        List<Sensor> sensorList = sensorService.getAllSensors();
+        List<Sensor> sensorList = sensorService.getAll();
         model.addAttribute("sensorList", sensorList);
         model.addAttribute("sensorRequest", new SensorRequest());
 
         return "dashboard";
     }
 
+    @DeleteMapping("/sensor/{id}")
+    public String deleteSensor(@PathVariable("id") UUID id, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+
+        var isAuthorized = authorizationService.authorizeUserForAllSensors(id, authentication);
+        if (!isAuthorized) {
+            return "redirect:/dashboard";
+        }
+        sensorService.delete(id);
+
+        return "redirect:/dashboard";
+    }
+
+    @DeleteMapping("/sensor/{id}/data")
+    public String deleteSensorData(@PathVariable("id") UUID id, @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
+
+        var isAuthorized = authorizationService.authorizeUserForAllSensors(id, authentication);
+        if (!isAuthorized) {
+            return "redirect:/dashboard";
+        }
+        sensorService.deleteData(id);
+
+        return "redirect:/dashboard/sensor/" + id;
+    }
+
     @GetMapping("/sensors/{currentPage}")
     public String getPublicSensors(Model model, @PathVariable("currentPage") Integer currentPage) {
 
-        var sensors = sensorService.getAllPublicSensors();
+        var sensors = sensorService.getPublic();
         model.addAttribute("sensorsData", true);
         paginateContent(sensors, currentPage, model);
 
@@ -104,7 +132,7 @@ public class DashboardController {
     @GetMapping("/user-sensors/{currentPage}")
     public String getUserSensors(Model model, @PathVariable("currentPage") Integer currentPage) {
 
-        var userSensors = sensorService.getSensorsForCurrentUser();
+        var userSensors = sensorService.getForCurrentUser();
         model.addAttribute("userSensorsData", true);
         paginateContent(userSensors, currentPage, model);
         initializeSensorAttributes(model);
@@ -126,25 +154,26 @@ public class DashboardController {
     }
 
     @GetMapping("/sensor/{id}/chart")
-    public String getChart(Model model,
-                           @PathVariable("id") UUID id,
+    public String getChart(Model model, @PathVariable("id") UUID id,
                            @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
-        var isAuthorized = authorizationService.authorizeUserForSensor(id, authentication);
+        var isAuthorized = authorizationService.authorizeUserForPrivateSensor(id, authentication);
         if (!isAuthorized) {
             return "redirect:/dashboard";
         }
 
         log.info("attach sensor");
-        SensorDTO sensorDTO = sensorService.getSensorDTO(id);
+        SensorDTO sensorDTO = sensorService.getDTO(id);
         model.addAttribute("sensor", sensorDTO);
         model.addAttribute("chart", true);
 
         model.addAttribute("selectedSensor", new SensorDTO());
         log.info("loading dashboard");
 
-        List<Sensor> sensorList = sensorService.getAllSensors();
+        List<Sensor> sensorList = sensorService.getAll();
         model.addAttribute("sensorList", sensorList);
         model.addAttribute("sensorRequest", new SensorRequest());
+
+        model.addAttribute("id", id);
 
         return "dashboard";
     }
@@ -155,7 +184,7 @@ public class DashboardController {
                                              @PathVariable("id") UUID id,
                                              @PathVariable("key") UUID key,
                                              @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
-        var isAuthorized = authorizationService.authorizeUserForSensor(id, authentication);
+        var isAuthorized = authorizationService.authorizeUserForPrivateSensor(id, authentication);
 
         getCreateKeyPage(model, authentication);
 
@@ -163,8 +192,9 @@ public class DashboardController {
             return ResponseEntity.noContent().build();
         }
 
-        SensorDTO sensorDTO = sensorService.getSensorDTO(id);
+        SensorDTO sensorDTO = sensorService.getDTO(id);
         HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=sensorData.csv");
         String csv = null;
         try (StringWriter sw = new StringWriter(); CSVWriter csvWriter = new CSVWriter(sw)) {
             var sensorData = sensorDTO.getSensorData();
@@ -191,7 +221,6 @@ public class DashboardController {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
-
         return ResponseEntity.ok().headers(headers).body(csv);
     }
 
@@ -200,17 +229,13 @@ public class DashboardController {
     public ResponseEntity<SensorDTO> getSensorData(@PathVariable("id") UUID id,
                                                    @PathVariable("key") UUID key,
                                                    @CurrentSecurityContext(expression = "authentication") Authentication authentication) {
-        var isAuthorized = authorizationService.authorizeUserForSensor(id, authentication);
+        var isAuthorized = authorizationService.authorizeUserForPrivateSensor(id, authentication);
 
         if (!isAuthorized || keyRequestService.isKeyUsedAllRequests(key)) {
             return ResponseEntity.noContent().build();
         }
 
-        SensorDTO sensorDTO = sensorService.getSensorDTO(id);
-        var data = sensorDTO.getSensorData().stream().limit(50).toList();
-        var messages = sensorDTO.getSensorMessages().stream().limit(100).toList();
-        sensorDTO.setSensorData(data);
-        sensorDTO.setSensorMessages(messages);
+        SensorDTO sensorDTO = sensorService.getDTO(id);
         return ResponseEntity.ok().body(sensorDTO);
     }
 
@@ -222,9 +247,9 @@ public class DashboardController {
         var placements = sensorTypesService.getAllPlacementTypes(sensorRequest.getPlacements());
         sensorRequest.setSensorTypesConverted(sensorTypes);
         sensorRequest.setPlacementsConverted(placements);
-        Sensor sensor = sensorService.saveSensor(sensorRequest);
+        Sensor sensor = sensorService.save(sensorRequest);
         log.info("attach sensor");
-        SensorDTO sensorDTO = sensorService.getSensorDTO(sensor.getId());
+        SensorDTO sensorDTO = sensorService.getDTO(sensor.getId());
         model.addAttribute("sensor", sensorDTO);
 
         model.addAttribute("chart", false);
@@ -232,7 +257,7 @@ public class DashboardController {
         log.info("loading dashboard");
 
         model.addAttribute("id", sensor.getId().toString());
-        List<Sensor> sensorList = sensorService.getAllSensors();
+        List<Sensor> sensorList = sensorService.getAll();
         model.addAttribute("sensorList", sensorList);
         model.addAttribute("sensorRequest", new SensorRequest());
         return "redirect:/dashboard/sensor/" + sensor.getId();
@@ -243,7 +268,7 @@ public class DashboardController {
                                @CurrentSecurityContext(expression = "authentication") Authentication authentication,
                                Model model) {
 
-        var isAuthorized = authorizationService.authorizeUserForSensor(id, authentication);
+        var isAuthorized = authorizationService.authorizeUserForPrivateSensor(id, authentication);
         if (!isAuthorized) {
             return "redirect:/dashboard";
         }
@@ -251,7 +276,9 @@ public class DashboardController {
         var placements = sensorTypesService.getAllPlacementTypes(sensorRequest.getPlacements());
         sensorRequest.setSensorTypesConverted(sensorTypes);
         sensorRequest.setPlacementsConverted(placements);
-        sensorService.saveSensor(sensorRequest);
+        sensorService.save(sensorRequest);
+        model.addAttribute("id", id);
+
         return "redirect:/dashboard/sensor/" + id;
     }
 
@@ -275,9 +302,12 @@ public class DashboardController {
         var authDetails = (WebAuthenticationDetails) authentication.getDetails();
         var ip = authDetails.getRemoteAddress();
         var user = userService.findUserByUsername(authentication.getName());
-        var key = keyRequestService.findKey(ip);
-        if (key == null) {
+        var key = keyRequestService.findKeyByUserId(user.getId());
+        var keyByIp = keyRequestService.findKey(ip);
+        if (key == null && keyByIp == null) {
             key = keyRequestService.registerKey(ip, user);
+        } else if (keyByIp != null) {
+            return keyByIp;
         }
         return key;
     }
@@ -292,6 +322,8 @@ public class DashboardController {
     @GetMapping("/tutorial")
     public String getGuidePage(Model model) {
         model.addAttribute("tutorial", true);
+        model.addAttribute("tutorialCode", DHT22_Arduino);
+        model.addAttribute("cert", CERT);
 
         return "dashboard";
     }
